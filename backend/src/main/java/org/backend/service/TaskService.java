@@ -1,12 +1,13 @@
 package org.backend.service;
 
-import org.backend.dao.TaskDao;
 import org.backend.entity.Task;
 import org.backend.entity.User;
+import org.backend.repository.TaskRepository;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.BadRequestException;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,34 +16,57 @@ import java.util.Optional;
 public class TaskService {
 
     @Inject
-    private TaskDao taskDao;
+    private TaskRepository taskRepository;
 
+    @Inject
+    private UserService userService;
+
+    @Transactional
     public List<Task> getAllTasks() {
-        return taskDao.getAllTasks();
+        return taskRepository.getAllTasks();
     }
 
     public Task findTaskById(Long id) {
-        Optional<Task> optionalTask = taskDao.findTaskById(id);
+        Optional<Task> optionalTask = taskRepository.findTaskById(id);
         return optionalTask.orElse(null);
     }
 
     @Transactional
     public Task createTask(Task task) {
-        return taskDao.createTask(task);
+        validateUserExists(task.getUser().getId());
+
+        return taskRepository.createTask(task);
     }
 
+    @Transactional
     public Task updateTask(Long id, Task task) {
-        // Ensure the task being updated has the correct ID
+        Task existingTask = findTaskById(id);
+        if (existingTask == null) {
+            throw new BadRequestException("Task with id " + id + " not found");
+        }
+
         task.setId(id);
-        return taskDao.updateTask(task);
+        return taskRepository.updateTask(task);
     }
 
+    @Transactional
     public void deleteTask(Long id) {
-        taskDao.deleteTask(id);
+        Task existingTask = findTaskById(id);
+        if (existingTask == null) {
+            throw new BadRequestException("Task with id " + id + " not found");
+        }
+
+        taskRepository.deleteTask(id);
     }
 
     public List<Task> getTasksByUser(User user) {
-        // Implement logic to fetch tasks associated with a specific user
-        return taskDao.getTasksByUser(user);
+        return taskRepository.getTasksByUser(user);
+    }
+
+    private void validateUserExists(Long userId) {
+        User user = userService.findUserById(userId);
+        if (user == null) {
+            throw new BadRequestException("User with id " + userId + " not found");
+        }
     }
 }

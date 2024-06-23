@@ -1,7 +1,7 @@
 package org.backend.service;
 
-import org.backend.dao.UserDao;
 import org.backend.entity.User;
+import org.backend.repository.UserRepository;
 import org.backend.util.RSAEncryptionUtil;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -14,13 +14,13 @@ import java.util.Optional;
 public class AuthService {
 
     @Inject
-    private UserDao userDao;
+    private UserRepository userRepository;
 
     @Inject
     private RSAEncryptionUtil rsaEncryptionUtil;
 
     public User authenticate(String username, String password) throws Exception {
-        Optional<User> optionalUser = userDao.findByUsername(username);
+        Optional<User> optionalUser = userRepository.findByUsername(username);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             String storedPasswordEncrypted = user.getPassword();
