@@ -1,5 +1,6 @@
 package org.backend.controller;
 
+import org.backend.dto.LoginDTO;
 import org.backend.dto.UserDTO;
 import org.backend.entity.User;
 import org.backend.service.AuthService;
@@ -11,7 +12,6 @@ import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response;
 
 import java.security.KeyPair;
@@ -101,14 +101,14 @@ public class UserResource {
 
                 String csrfToken = csrfTokenUtil.generateCsrfToken();
 
-                @SuppressWarnings("deprecation")
-                NewCookie csrfCookie = new NewCookie("X-CSRF-Token", csrfToken,
-                        "/", null, null, NewCookie.DEFAULT_MAX_AGE, false, true);
-
                 user.setPrivateKeyBase64(null);
                 user.setPublicKeyBase64(null);
                 user.setPassword(null);
-                return Response.ok(user).cookie(csrfCookie).build();
+                user.setTasks(null);
+
+                LoginDTO loginResponse = new LoginDTO(user, csrfToken);
+
+                return Response.ok(loginResponse).build();
             } else {
                 return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid credentials").build();
             }
