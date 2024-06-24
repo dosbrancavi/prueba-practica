@@ -18,9 +18,6 @@ public class TaskService {
     @Inject
     private TaskRepository taskRepository;
 
-    @Inject
-    private UserService userService;
-
     @Transactional
     public List<Task> getAllTasks() {
         return taskRepository.getAllTasks();
