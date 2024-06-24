@@ -30,7 +30,7 @@
     overflow: auto;    
   }
 
-  .mat-card-content ::ng-deep ::-webkit-scrollbar {
+  ::ng-deep ::-webkit-scrollbar {
     display: none !important;
   }
 

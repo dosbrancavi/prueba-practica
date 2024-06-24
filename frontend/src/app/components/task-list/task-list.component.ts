@@ -33,7 +33,11 @@ export class TaskListComponent {
     this.isDragging = false;
   }
 
- 
+  @HostListener('dragleave', ['$event'])
+  onDragLeave(event: DragEvent): void {
+    this.isDragging = false;
+  }
+  
 
   @HostListener('dragover', ['$event'])
   allowDrop(event: DragEvent): void {
@@ -41,11 +45,17 @@ export class TaskListComponent {
     this.isDragging = true;
   }
 
-  onDragEnd(): void {
-    this.isDragging = false;
-    console.log('Drag ended');
-  }
+  @HostListener('dragend', ['$event'])
+onDragEnd(event: DragEvent): void {
+  this.isDragging = false;
+  this.resetDraggingState();
+}
 
+resetDraggingState(): void {
+  // Restablece el estado de arrastre en todas las columnas
+  const columns = document.querySelectorAll('.task-card');
+  columns.forEach(column => column.classList.remove('dragging'));
+}
   ngOnInit() {
     console.log(this.pendingTasks);
   }

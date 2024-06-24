@@ -1,8 +1,9 @@
 <div
-  (drop)="onDropEntry($event)"
-  (dragover)="allowDrop($event)"
-  (dragend)="onDragEnd()"
-  [class.dragging]="isDragging"
+(drop)="onDropEntry($event)"
+(dragover)="allowDrop($event)"
+(dragleave)="onDragLeave($event)"
+(dragend)="onDragEnd($event)"
+[class.dragging]="isDragging"
 >
   <mat-nav-list
     [ngStyle]="{
