@@ -23,15 +23,15 @@ export class TaskListComponent {
   @HostBinding('class.dragging') isDragging = false;
 
   @HostListener('drop', ['$event'])
-  onDropEntry(event: DragEvent): void {
-    event.preventDefault();
-    const data = event.dataTransfer?.getData('task');
-    if (data) {
-      const task = JSON.parse(data) as Task;
-      this.taskDropped.emit({ task, newStatus: this.status });
-    }
-    this.isDragging = false;
+onDropEntry(event: DragEvent): void {
+  event.preventDefault();
+  const data = event.dataTransfer?.getData('task');
+  if (data) {
+    const task = JSON.parse(data) as Task;
+    this.taskDropped.emit({ task, newStatus: this.status });
   }
+  this.isDragging = false;
+}
 
   @HostListener('dragleave', ['$event'])
   onDragLeave(event: DragEvent): void {

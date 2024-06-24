@@ -41,6 +41,7 @@ export class TasksComponent {
   changeTaskStatus(event: { task: Task, newStatus: string }) {
     const { task, newStatus } = event;
   
+    
     // Remove the task from its current list
     this.removeFromCurrentList(task);
   
@@ -64,26 +65,25 @@ export class TasksComponent {
     }
   }
   
+  
   private addToNewList(task: Task, newStatus: string): void {
+    let newList: Task[];
+    
     if (newStatus === 'Pendiente') {
-      this.pendingTasks.push(task);
+      newList = this.pendingTasks;
     } else if (newStatus === 'En progreso') {
-      this.inProgressTasks.push(task);
+      newList = this.inProgressTasks;
     } else if (newStatus === 'Completada') {
-      this.completedTasks.push(task);
+      newList = this.completedTasks;
+    } else {
+      return;
+    }
+  
+    // Verificar si la tarea ya existe en la lista
+    if (!newList.some(t => t.id === task.id)) {
+      newList.push(task);
     }
   }
   
-  getTasksByStatus(status: string): Task[] {
-    if (status === 'Pendiente') {
-      return this.pendingTasks;
-    } else if (status === 'En progreso') {
-      return this.inProgressTasks;
-    } else if (status === 'Completada') {
-      return this.completedTasks;
-    } else {
-      return [];
-    }
-  }
 
 }
