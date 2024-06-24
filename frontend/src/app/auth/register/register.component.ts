@@ -23,7 +23,7 @@ export class RegisterComponent {
   
   registerForm: FormGroup = this.formBuilder.group({
     username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
-    phoneNumber: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9), Validators.pattern("\\d{4}-\\d{4}")]],
+    phoneNumber: ['', [Validators.required, Validators.maxLength(9), Validators.pattern("\\d{4}-\\d{4}")]],
     age: ['', [Validators.required]],
     gender: ['', [Validators.required] ],
     password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]]

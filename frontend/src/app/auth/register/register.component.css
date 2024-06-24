@@ -22,13 +22,11 @@ h1 {
 
 .custom-mat-form-field {
   width: 80%;
-  height: 100px;
   margin: 0;
 }
 
 .custom-mat-input {
   width: 80%;
-  height: 40%;
   font-size: 14px;
 }
 .error {
