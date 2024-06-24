@@ -26,7 +26,8 @@ public class TaskResource {
     private CsrfTokenUtil csrfTokenUtil;
 
     @GET
-    public List<Task> getAllTasks() {
+    public List<Task> getAllTasks(@HeaderParam("X-CSRF-Token") String csrfToken) {
+        validateCsrfToken(csrfToken);
         return taskService.getAllTasks();
     }
 

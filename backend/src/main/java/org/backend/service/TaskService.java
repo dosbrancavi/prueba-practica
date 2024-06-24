@@ -33,7 +33,6 @@ public class TaskService {
 
     @Transactional
     public Task createTask(Task task) {
-        validateUserExists(task.getUser().getId());
 
         return taskRepository.createTask(task);
     }
@@ -63,10 +62,5 @@ public class TaskService {
         return taskRepository.getTasksByUser(user);
     }
 
-    private void validateUserExists(Long userId) {
-        User user = userService.findUserById(userId);
-        if (user == null) {
-            throw new BadRequestException("User with id " + userId + " not found");
-        }
-    }
+
 }

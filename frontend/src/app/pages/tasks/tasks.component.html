@@ -1,0 +1,35 @@
+<div class="container">
+  <mat-grid-list cols="3" rowHeight="fit" gutterSize="16px">
+    <mat-grid-tile>
+      <mat-card class="task-card">
+        <mat-card-header>
+          <mat-card-title>Pendientes</mat-card-title>
+          <app-new-task ></app-new-task>
+        </mat-card-header>
+        <mat-card-content>
+          <app-task-list status="Pendiente" [pendingTasks]="pendingTasks" (taskDropped)="changeTaskStatus($event)"></app-task-list>            
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-card class="task-card">
+        <mat-card-header>
+          <mat-card-title>En progreso</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <app-task-list status="En progreso" [inProgressTasks]="inProgressTasks" (taskDropped)="changeTaskStatus($event)"></app-task-list>            
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-card class="task-card">
+        <mat-card-header>
+          <mat-card-title>Completadas</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <app-task-list status="Completada" [completedTasks]="completedTasks" (taskDropped)="changeTaskStatus($event)"></app-task-list>            
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

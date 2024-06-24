@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,14 +23,13 @@ public class Task {
     private String description;
 
     @Column(nullable = false, length = 20)
-    private String status; // Pendiente, En progreso, Terminada
+    private String status; 
 
     @Column(name = "image_url")
-    private String imageUrl; // URL de la imagen asociada, si la hay
+    private String imageUrl;
 
-    // Relación Many-to-One: Muchas tareas pueden pertenecer a un usuario
-    @ManyToOne
-    private User user;
+    // @ManyToOne
+    // private User user;
 
     public Task(String description, String status, String imageUrl) {
         this.description = description;

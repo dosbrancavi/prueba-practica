@@ -1,0 +1,19 @@
+<div
+  (drop)="onDropEntry($event)"
+  (dragover)="allowDrop($event)"
+  (dragend)="onDragEnd()"
+  [class.dragging]="isDragging"
+>
+  <mat-nav-list
+    [ngStyle]="{
+      opacity: isDragging ? 0.2 : 1,
+      transition: 'all .3s',
+      marginTop: '20px',
+      
+    }"
+  >
+    @for (task of pendingTasks || completedTasks || inProgressTasks ; track task.id) {
+      <app-task-card [task]="task"></app-task-card>
+    }
+  </mat-nav-list>
+</div>

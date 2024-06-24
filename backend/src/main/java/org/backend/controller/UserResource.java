@@ -104,7 +104,6 @@ public class UserResource {
                 user.setPrivateKeyBase64(null);
                 user.setPublicKeyBase64(null);
                 user.setPassword(null);
-                user.setTasks(null);
 
                 LoginDTO loginResponse = new LoginDTO(user, csrfToken);
 

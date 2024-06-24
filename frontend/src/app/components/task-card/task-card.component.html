@@ -1,0 +1,24 @@
+<mat-card
+  [ngStyle]="{
+    marginBottom: '8px',
+    position: 'relative',
+    zIndex: 999,
+    cursor: 'pointer'
+  }"
+  draggable="true"
+>
+  <mat-card>
+    <mat-card-content>
+      <p>{{task.description}}</p>
+    </mat-card-content>
+    @if (task.imageUrl) {
+      <mat-card-content>
+        <img src="{{task.imageUrl}}"/>
+      </mat-card-content>
+    }
+    
+    <mat-card-actions style="display: flex; justify-content: flex-end; padding-right: 16px;">
+      <span>aasdasdasdad</span>
+    </mat-card-actions>
+  </mat-card>
+</mat-card>

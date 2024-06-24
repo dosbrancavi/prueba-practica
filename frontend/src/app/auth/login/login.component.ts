@@ -40,6 +40,7 @@ export class LoginComponent {
       this.dataService.login(body).subscribe({
         next: (res) => {
           console.log(res);
+          localStorage.setItem('user', JSON.stringify(res));
           this.loading = false;
         },
         error: (err) => {
