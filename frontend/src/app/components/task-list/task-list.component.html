@@ -10,7 +10,7 @@
       opacity: isDragging ? 0.2 : 1,
       transition: 'all .3s',
       marginTop: '20px',
-      
+      height: '60vh'
     }"
   >
     @for (task of pendingTasks || completedTasks || inProgressTasks ; track task.id) {
