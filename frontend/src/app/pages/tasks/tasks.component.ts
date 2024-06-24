@@ -18,14 +18,14 @@ export class TasksComponent {
   pendingTasks: Task[] = [];
   inProgressTasks: Task[] = [];
   completedTasks: Task[] = [];
+  token= ''
 
   constructor(private dataService: DataService){}
   ngOnInit(){
     
-    const  user = JSON.parse(localStorage.getItem('user')!);
-    const token = user.csrfToken;
-    console.log(token);
-    this.dataService.allTasks(token).subscribe({
+      const user = JSON.parse(localStorage.getItem('user')!);
+     this.token = user.csrfToken;
+    this.dataService.allTasks(this.token).subscribe({
       next: (res) => {
         console.log(res);
         this.pendingTasks = res.filter(task => task.status === 'Pendiente');
@@ -40,7 +40,7 @@ export class TasksComponent {
 
   changeTaskStatus(event: { task: Task, newStatus: string }) {
     const { task, newStatus } = event;
-  
+    
     
     // Remove the task from its current list
     this.removeFromCurrentList(task);
@@ -51,8 +51,8 @@ export class TasksComponent {
     // Add the task to the new list based on newStatus
     this.addToNewList(task, newStatus);
   
-    // Optionally, update the task status on the server using DataService
-    // this.dataService.updateTask(task.id, { status: newStatus }).subscribe();
+     
+     this.dataService.updateTask(task, this.token).subscribe();
   }
   
   private removeFromCurrentList(task: Task): void {

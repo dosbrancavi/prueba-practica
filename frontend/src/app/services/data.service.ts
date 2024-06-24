@@ -45,12 +45,12 @@ export class DataService {
     return this.httpClient.get<Task[]>(`${this.BASE_URL}/tasks/${id}`,{headers})
   }
 
-  updateTask(id: number, token: string){
+  updateTask(task: Task, token: string){
     const headers = new HttpHeaders({
       'X-CSRF-Token': token,
       'Content-Type': 'application/json'
     });
-    return this.httpClient.put<Task>(`${this.BASE_URL}/tasks/${id}`,{headers})
+    return this.httpClient.put<Task>(`${this.BASE_URL}/tasks`,task,{headers})
   }
 
   deleteTask(id: number, token: string){
