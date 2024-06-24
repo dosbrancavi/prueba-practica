@@ -1,0 +1,24 @@
+<form class="custome-form" [formGroup]="loginFrom" (ngSubmit)="login()">
+  <mat-grid-list class="custome-mat-grid-list" cols="1" rowHeight="100px">
+    <mat-grid-tile class="custom-mat-grid-tile">
+        <h1>Inicia sesion</h1>
+    </mat-grid-tile>
+    <mat-grid-tile class="custom-mat-grid-tile">
+      <mat-form-field appearance="fill" class="custom-mat-form-field">
+        <mat-label>Usuario</mat-label>
+        <input matInput formControlName="username" placeholder="Usuario" />
+      </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile class="custom-mat-grid-tile">
+      <mat-form-field appearance="fill" class="custom-mat-form-field">
+        <mat-label>Contraseña</mat-label>
+        <input matInput formControlName="password" placeholder="Contraseña" />
+      </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile class="custom-mat-grid-tile">
+      <button mat-raised-button class="custome-button">Enviar</button>
+    </mat-grid-tile>
+  </mat-grid-list>
+</form>
+
+<pre>{{ loginFrom.valid | json }}</pre>

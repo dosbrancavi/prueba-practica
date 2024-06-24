@@ -1,0 +1,53 @@
+.custome-form {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  height: 90vh;
+}
+
+mat-grid-tile {
+  margin: 24px 0;
+}
+
+h1 {
+  color: #24223f;
+}
+
+.custome-mat-grid-list {
+  width: 30%;
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.custom-mat-form-field {
+  width: 80%;
+  height: 100px;
+  margin: 0;
+}
+
+.custom-mat-input {
+  width: 80%;
+  height: 40%;
+  font-size: 14px;
+}
+.error {
+  color: #922d28;
+  font-size: 0.875rem;
+  margin-top: 40px;
+}
+
+.custome-button {
+  background-color: #31a2eb !important;
+  color: #fff !important;
+  font-size: 16px;
+  padding: 10px 20px;
+  border-radius: 4px;
+  width: 80%;
+  margin-bottom: 38px;
+  transition: background-color 0.3s ease;
+}
+
+.custome-button:hover {
+  background-color: #0d2d4861;
+}

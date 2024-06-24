@@ -1,0 +1,106 @@
+<form class="custome-form" [formGroup]="registerForm" (ngSubmit)="register()">
+  <mat-grid-list class="custome-mat-grid-list" cols="1" rowHeight="100px">
+    <mat-grid-tile class="custom-mat-grid-tile">
+        <h1>Registrate</h1>
+    </mat-grid-tile>
+    <mat-grid-tile >
+      <mat-form-field appearance="fill" class="custom-mat-form-field">
+        <mat-label>Usuario</mat-label>
+        <input matInput formControlName="username" class="custom-mat-input" />
+
+        <ng-container *ngIf="username.errors?.['minlength']">
+          <div>
+            <span class="error">El mínimo de caracteres requeridos es 3</span>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="username.errors?.['maxlength']">
+          <span class="error">El máximo de caracteres requeridos es 100</span>
+        </ng-container>
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile>
+      <mat-form-field appearance="fill" class="custom-mat-form-field">
+        <mat-label>Telefono</mat-label>
+        <input
+          matInput
+          formControlName="phoneNumber"
+          placeholder="Teléfono"
+          class="custom-mat-input"
+        />
+
+        <ng-container *ngIf="phoneNumber.errors?.['minlength']">
+          <div>
+            <span class="error">El mínimo de caracteres requeridos es 9</span>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="phoneNumber.errors?.['maxlength']">
+          <div>
+            <span class="error">El máximo de caracteres requeridos es 9</span>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="phoneNumber.errors?.['pattern']">
+          <div>
+            <span class="error">El formato requerido es 0000-0000</span>
+          </div>
+        </ng-container>
+        
+      </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-form-field appearance="fill" class="custom-mat-form-field">
+        <mat-label>Edad</mat-label>
+        <input
+          matInput
+          formControlName="age"
+          placeholder="Edad"
+          class="custom-mat-input"
+        />
+      </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-form-field appearance="fill" class="custom-mat-form-field">
+        <mat-label>Genero</mat-label>
+        <input
+          matInput
+          formControlName="gender"
+          placeholder="Género"
+          class="custom-mat-input"
+        />
+    </mat-form-field>
+
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-form-field appearance="fill" class="custom-mat-form-field">
+        <mat-label>contraseña</mat-label>
+        <input
+          matInput
+          formControlName="password"
+          placeholder="Contraseña"
+          class="custom-mat-input"
+        />
+      <ng-container *ngIf="password.errors?.['minlength']">
+        <div>
+          <span class="error">El mínimo de caracteres requeridos es 8</span>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="password.errors?.['maxlength']">
+        <div>
+          <span class="error">El máximo de caracteres requeridos es 50</span>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="password.errors?.['pattern']">
+        <div>
+          <span class="error"
+            >La contraseña requiere mayúsculas, minúsculas y números</span
+          >
+        </div>
+      </ng-container>
+    </mat-form-field>
+
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <button mat-raised-button class="custome-button" type="submit">Enviar</button>
+    </mat-grid-tile>
+  </mat-grid-list>
+</form>
