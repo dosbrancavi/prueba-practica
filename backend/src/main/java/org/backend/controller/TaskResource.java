@@ -54,7 +54,6 @@ public class TaskResource {
                                @HeaderParam("X-CSRF-Token") String csrfToken) {
         validateCsrfToken(csrfToken);
         
-        // Obtén el ID de la tarea del objeto task
         Long id = task.getId();
         
         Task updatedTask = taskService.updateTask(id, task);

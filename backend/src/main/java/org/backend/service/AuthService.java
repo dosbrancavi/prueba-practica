@@ -27,11 +27,9 @@ public class AuthService {
             PrivateKey privateKey = rsaEncryptionUtil.getKeyPairFromBase64(user.getPublicKeyBase64(), user.getPrivateKeyBase64()).getPrivate();
             String decryptedPassword = rsaEncryptionUtil.decryptPassword(storedPasswordEncrypted, privateKey);
             if (decryptedPassword.equals(password)) {
-                // Si las credenciales son válidas, retornamos el usuario
                 return user;
             }
         }
-        // Si las credenciales no son válidas, retornamos null
         return null;
     }
 }

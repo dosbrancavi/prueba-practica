@@ -31,7 +31,7 @@ export class NewTaskModalComponent {
   ) {
     this.createTaskForm = this.formBuilder.group({
       description: ['', Validators.required],
-      status: ['Pendiente', Validators.required], // Valor por defecto
+      status: ['Pendiente', Validators.required],
       imageUrl: ['']
     });
   }
@@ -73,7 +73,7 @@ export class NewTaskModalComponent {
       this.dataService.createTask(body, token).subscribe({
         next: (res) => {
           console.log(res);
-          this.close(); // Cierra el modal después de guardar
+          this.close(); 
         },
         error: (err) => {
           console.log(err);

@@ -52,7 +52,6 @@ onDragEnd(event: DragEvent): void {
 }
 
 resetDraggingState(): void {
-  // Restablece el estado de arrastre en todas las columnas
   const columns = document.querySelectorAll('.task-card');
   columns.forEach(column => column.classList.remove('dragging'));
 }

@@ -17,13 +17,11 @@ export class NewTaskComponent {
 
   openModal(): void {
     const dialogRef = this.dialog.open(NewTaskModalComponent, {
-      width: '80%', // Ancho del modal (opcional)
-      // Puedes agregar más configuraciones según tus necesidades
+      width: '80%',
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('El modal se cerró');
-      // Aquí puedes agregar lógica adicional después de cerrar el modal si es necesario
     });
   }
 }
