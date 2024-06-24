@@ -43,8 +43,7 @@ public class TaskService {
         if (existingTask == null) {
             throw new BadRequestException("Task with id " + id + " not found");
         }
-
-        task.setId(id);
+        
         return taskRepository.updateTask(task);
     }
 

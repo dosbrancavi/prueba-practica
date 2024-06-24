@@ -50,13 +50,17 @@ public class TaskResource {
     }
 
     @PUT
-    @Path("/{id}")
-    public Response updateTask(@PathParam("id") Long id, @Valid Task task,
+    public Response updateTask(@Valid Task task,
                                @HeaderParam("X-CSRF-Token") String csrfToken) {
         validateCsrfToken(csrfToken);
+        
+        // Obtén el ID de la tarea del objeto task
+        Long id = task.getId();
+        
         Task updatedTask = taskService.updateTask(id, task);
         return Response.ok(updatedTask).build();
     }
+    
 
     @DELETE
     @Path("/{id}")
