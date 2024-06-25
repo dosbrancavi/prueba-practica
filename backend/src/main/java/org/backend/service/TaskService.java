@@ -65,28 +65,33 @@ public class TaskService {
         if (existingTask == null) {
             throw new BadRequestException("Task with id " + id + " not found");
         }
-
-        if (imageUrl == null && existingTask.getImageUrl() != null) {
-            deleteImage(existingTask.getImageUrl());
-            existingTask.setImageUrl(null);
-        } else if (imageUrl != null) {
+    
+        // Guardar la URL de la imagen existente antes de actualizar
+        String existingImageUrl = existingTask.getImageUrl();
+    
+        // Solo eliminar la imagen existente si se proporciona una nueva imagen
+        if (imageUrl != null && existingImageUrl != null && !imageUrl.equals(existingImageUrl)) {
+            deleteImage(existingImageUrl);
+        }
+    
+        // Actualizar la URL de la imagen solo si se proporciona una nueva URL
+        if (imageUrl != null) {
             existingTask.setImageUrl(imageUrl);
         }
-
+    
         existingTask.setDescription(description);
         existingTask.setStatus(status);
-
+    
         if (userId != null) {
             User user = new User();
             user.setId(userId);
             existingTask.setUser(user);
         }
-
+    
         Task updatedTask = taskRepository.updateTask(existingTask);
-
+    
         return updatedTask != null;
     }
-
     @Transactional
     public void deleteTask(Long id) {
         Task existingTask = findTaskById(id);

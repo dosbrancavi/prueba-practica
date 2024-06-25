@@ -77,30 +77,42 @@ public class TaskResource {
                     .build();
         }
     }
-
     @PUT
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response updateTask(@Valid @MultipartForm TasksDTO taskDto,
             @HeaderParam("X-CSRF-Token") String csrfToken) {
         validateCsrfToken(csrfToken);
-
+    
         try {
             String imageUrl = null;
-
+    
+            // Obtener la tarea existente para obtener la URL de la imagen actual
+            Long taskId = Long.valueOf(taskDto.getId());
+            Task existingTask = taskService.findTaskById(taskId);
+    
+            if (existingTask == null) {
+                return Response.status(Response.Status.NOT_FOUND)
+                        .entity("Task with id " + taskId + " not found")
+                        .build();
+            }
+    
+            // Si se proporciona un nuevo archivo de imagen, guardarlo y actualizar la URL
             if (taskDto.getImageFile() != null) {
                 imageUrl = taskService.saveImage(taskDto.getImageFile());
+            } else {
+                // Si no se proporciona un nuevo archivo de imagen, mantener la URL de la imagen existente
+                imageUrl = existingTask.getImageUrl();
             }
-
-            Long taskId = Long.valueOf(taskDto.getId());
+    
             Long userId = taskDto.getUserId() != null ? Long.valueOf(taskDto.getUserId()) : null;
-
+    
             boolean success = taskService.updateTask(
                     taskId,
                     taskDto.getDescription(),
                     taskDto.getStatus(),
                     imageUrl,
                     userId);
-
+    
             if (success) {
                 return Response.ok(true).build();
             } else {
@@ -108,7 +120,7 @@ public class TaskResource {
                         .entity("Task with id " + taskId + " not found")
                         .build();
             }
-
+    
         } catch (NumberFormatException e) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity("Invalid id format: " + taskDto.getId() + " or userId format: " + taskDto.getUserId())

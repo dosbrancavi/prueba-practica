@@ -34,12 +34,12 @@ export class DataService {
 
   createTask(request: CreateTask, token: string) {
     const formData = new FormData();
-    formData.append('description', request.description);
-    formData.append('status', request.status);
-    formData.append('user[id]', request.user.id.toString());
+    formData.append("description", request.description);
+    formData.append("status", request.status);
+    formData.append("user[id]", request.user.id.toString());
 
     if (request.imageFile) {
-      formData.append('imageFile', request.imageFile, request.imageFile.name);
+      formData.append("imageFile", request.imageFile, request.imageFile.name);
     }
 
     const headers = new HttpHeaders({
@@ -78,11 +78,23 @@ export class DataService {
   }
 
   updateTask(task: Task, token: string) {
+    const formData = new FormData();
+    formData.append("description", task.description);
+    formData.append("status", task.status);
+    formData.append("user.id", task.user.id.toString());
+
+    if (task.imageFile ) {
+      formData.append("imageFile", task.imageFile, task.imageFile.name);
+    }
+    if (task.id !== undefined) {
+      formData.append("id", task.id.toString());
+    }
+
     const headers = new HttpHeaders({
       "X-CSRF-Token": token,
-      "Content-Type": "application/json",
     });
-    return this.httpClient.put<Task>(`${this.BASE_URL}/tasks`, task, {
+
+    return this.httpClient.put<Task>(`${this.BASE_URL}/tasks`, formData, {
       headers,
     });
   }
