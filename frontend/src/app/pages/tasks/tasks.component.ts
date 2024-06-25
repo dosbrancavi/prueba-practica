@@ -54,7 +54,7 @@ export class TasksComponent {
       this.breakpointObserver.observe([Breakpoints.Handset])
       .subscribe(result => {
         this.cols = result.matches ? 1 : 3;
-        this.heigth = result.matches ? '800px' : 'fit'
+        this.heigth = result.matches ? '95vh' : 'fit'
       });
   }
 

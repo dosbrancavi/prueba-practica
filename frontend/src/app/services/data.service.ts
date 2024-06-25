@@ -37,7 +37,7 @@ export class DataService {
     const formData = new FormData();
     formData.append("description", request.description);
     formData.append("status", request.status);
-    formData.append("user[id]", request.user.id.toString());
+    formData.append("user.id", request.user.id.toString());
 
     if (request.imageFile) {
       formData.append("imageFile", request.imageFile, request.imageFile.name);
