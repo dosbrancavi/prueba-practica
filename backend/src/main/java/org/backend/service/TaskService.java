@@ -3,6 +3,7 @@ package org.backend.service;
 import org.backend.entity.Task;
 import org.backend.entity.User;
 import org.backend.repository.TaskRepository;
+import org.backend.repository.UserRepository;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -18,9 +19,12 @@ import java.util.*;
 public class TaskService {
 
     @Inject
+    private UserRepository userRepository;
+
+    @Inject
     private TaskRepository taskRepository;
 
-        private static final String TASKS_IMAGES_DIR = "tasksImages"; // Directorio para almacenar las imágenes
+    private static final String TASKS_IMAGES_DIR = "tasksImages"; // Directorio para almacenar las imágenes
 
     public String saveImage(InputStream imageFile) throws IOException {
         // Verificar si el directorio tasksImages existe, si no, crearlo
@@ -39,7 +43,6 @@ public class TaskService {
         return "http://localhost:9090/tasksImages/" + fileName; // Este será el URL que se guarda en la base de datos
     }
 
-
     @Transactional
     public List<Task> getAllTasks() {
         return taskRepository.getAllTasks();
@@ -56,13 +59,32 @@ public class TaskService {
     }
 
     @Transactional
-    public Task updateTask(Long id, Task task) {
+    public boolean updateTask(Long id, String description, String status, String imageUrl, Long userId)
+            throws IOException {
         Task existingTask = findTaskById(id);
         if (existingTask == null) {
             throw new BadRequestException("Task with id " + id + " not found");
         }
-        
-        return taskRepository.updateTask(task);
+
+        if (imageUrl == null && existingTask.getImageUrl() != null) {
+            deleteImage(existingTask.getImageUrl());
+            existingTask.setImageUrl(null);
+        } else if (imageUrl != null) {
+            existingTask.setImageUrl(imageUrl);
+        }
+
+        existingTask.setDescription(description);
+        existingTask.setStatus(status);
+
+        if (userId != null) {
+            User user = new User();
+            user.setId(userId);
+            existingTask.setUser(user);
+        }
+
+        Task updatedTask = taskRepository.updateTask(existingTask);
+
+        return updatedTask != null;
     }
 
     @Transactional
@@ -79,5 +101,11 @@ public class TaskService {
         return taskRepository.getTasksByUser(user);
     }
 
+    public void deleteImage(String imageUrl) throws IOException {
+        if (imageUrl != null) {
+            Path filePath = Paths.get(TASKS_IMAGES_DIR, imageUrl.substring(imageUrl.lastIndexOf('/') + 1));
+            Files.deleteIfExists(filePath);
+        }
+    }
 
 }

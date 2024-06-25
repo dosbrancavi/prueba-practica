@@ -27,6 +27,8 @@ import { MatSelectModule } from "@angular/material/select";
   styleUrl: "./edit-task-modal.component.css",
 })
 export class EditTaskModalComponent {
+
+  token = ''
   constructor(
     private formBuilder: FormBuilder,
     private dataService: DataService,
@@ -57,8 +59,11 @@ export class EditTaskModalComponent {
         ...this.editTaskForm.value,
       };
 
+      const user = JSON.parse(localStorage.getItem("user")!);
+      console.log(user)
+      this.token = user.csrfToken
       this.dataService
-        .updateTask(updatedTask, localStorage.getItem("csrfToken")!)
+        .updateTask(updatedTask, this.token)
         .subscribe({
           next: (res) => {
             this.dialogRef.close(res);

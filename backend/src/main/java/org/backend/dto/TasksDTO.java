@@ -12,6 +12,9 @@ import org.jboss.resteasy.annotations.providers.multipart.PartType;
 @Data
 public class TasksDTO {
 
+    @FormParam("id")
+    private String id;
+
     @NotBlank
     @FormParam("description")
     private String description;
@@ -26,4 +29,7 @@ public class TasksDTO {
 
     @FormParam("imageUrl")
     private String imageUrl;
+
+    @FormParam("user.id")
+    private String userId;
 }

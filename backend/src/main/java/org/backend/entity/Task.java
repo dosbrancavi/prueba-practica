@@ -1,10 +1,13 @@
 package org.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,8 +31,9 @@ public class Task {
     @Column(name = "image_url")
     private String imageUrl;
 
-    // @ManyToOne
-    // private User user;
+     @JsonBackReference
+     @ManyToOne
+     private User user;
 
     public Task(String description, String status, String imageUrl) {
         this.description = description;

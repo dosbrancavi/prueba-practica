@@ -40,10 +40,6 @@ public class User {
     @Column(name = "private_key", length = 4000)
     private String privateKeyBase64;
 
-    // @JsonIgnore
-    // @OneToMany(mappedBy = "user")
-    // private List<Task> tasks;
-
     public User(String username, String phoneNumber, Integer age, String gender, String password) {
         this.username = username;
         this.phoneNumber = phoneNumber;

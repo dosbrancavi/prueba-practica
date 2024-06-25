@@ -61,6 +61,12 @@ public class TaskResource {
             }
 
             Task task = new Task(taskDto.getDescription(), taskDto.getStatus(), imageUrl);
+
+            User user = new User();
+            user.setId(Long.valueOf(taskDto.getUserId()));
+
+            task.setUser(user);
+
             Task createdTask = taskService.createTask(task);
 
             return Response.status(Response.Status.CREATED).entity(createdTask).build();
@@ -73,14 +79,49 @@ public class TaskResource {
     }
 
     @PUT
-    public Response updateTask(@Valid Task task,
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response updateTask(@Valid @MultipartForm TasksDTO taskDto,
             @HeaderParam("X-CSRF-Token") String csrfToken) {
         validateCsrfToken(csrfToken);
 
-        Long id = task.getId();
+        try {
+            String imageUrl = null;
 
-        Task updatedTask = taskService.updateTask(id, task);
-        return Response.ok(updatedTask).build();
+            if (taskDto.getImageFile() != null) {
+                imageUrl = taskService.saveImage(taskDto.getImageFile());
+            }
+
+            Long taskId = Long.valueOf(taskDto.getId());
+            Long userId = taskDto.getUserId() != null ? Long.valueOf(taskDto.getUserId()) : null;
+
+            boolean success = taskService.updateTask(
+                    taskId,
+                    taskDto.getDescription(),
+                    taskDto.getStatus(),
+                    imageUrl,
+                    userId);
+
+            if (success) {
+                return Response.ok(true).build();
+            } else {
+                return Response.status(Response.Status.NOT_FOUND)
+                        .entity("Task with id " + taskId + " not found")
+                        .build();
+            }
+
+        } catch (NumberFormatException e) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Invalid id format: " + taskDto.getId() + " or userId format: " + taskDto.getUserId())
+                    .build();
+        } catch (IOException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Error al guardar la imagen: " + e.getMessage())
+                    .build();
+        } catch (BadRequestException e) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity(e.getMessage())
+                    .build();
+        }
     }
 
     @DELETE
