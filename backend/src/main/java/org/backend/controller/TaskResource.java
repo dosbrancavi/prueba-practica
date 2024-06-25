@@ -53,22 +53,24 @@ public class TaskResource {
     public Response createTask(
             @Valid @MultipartForm TasksDTO taskDto,
             @HeaderParam("X-CSRF-Token") String csrfToken) {
-
+    
         validateCsrfToken(csrfToken);
-
+    
         try {
-            // Guardar la imagen y obtener la URL
-            String imageUrl = taskService.saveImage(taskDto.getImageFile());
-
-            // Crear la tarea con la URL de la imagen
+            String imageUrl = null;
+            
+            // Si se proporcionó un archivo de imagen, guardarla y obtener la URL
+            if (taskDto.getImageFile() != null) {
+                imageUrl = taskService.saveImage(taskDto.getImageFile());
+            }
+    
+            // Crear la tarea con o sin URL de imagen
             Task task = new Task(taskDto.getDescription(), taskDto.getStatus(), imageUrl);
             Task createdTask = taskService.createTask(task);
-
-            // Devolver la respuesta con la tarea creada
+    
             return Response.status(Response.Status.CREATED).entity(createdTask).build();
-
+    
         } catch (IOException e) {
-            // Manejar errores al guardar la imagen
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                            .entity("Error al guardar la imagen: " + e.getMessage())
                            .build();

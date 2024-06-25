@@ -21,11 +21,10 @@ public class TasksDTO {
     @FormParam("status")
     private String status;
 
-    @NotNull
     @FormParam("imageFile")
     @PartType(MediaType.APPLICATION_OCTET_STREAM)
     private InputStream imageFile;
 
-    @FormParam("status")
+    @FormParam("imageUrl")
     private String imageUrl;
 }
