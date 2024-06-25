@@ -5,22 +5,25 @@
     zIndex: 999,
     cursor: 'pointer'
   }"
+  (click)="openEditTaskModal()"
   draggable="true"
 >
   <mat-card>
     <mat-card-content>
-      <p>{{task.description}}</p>
+      <p>{{ task.description }}</p>
     </mat-card-content>
     @if (task.imageUrl) {
-      <mat-card-content>
-        <div>
-          <img src="{{ task.imageUrl }}" class="card-image">
-        </div>
-      </mat-card-content>
+    <mat-card-content>
+      <div>
+        <img src="{{ task.imageUrl }}" class="card-image" />
+      </div>
+    </mat-card-content>
     }
-    
-    <mat-card-actions style="display: flex; justify-content: flex-end; padding-right: 16px;">
-      <span>{{task.status}}</span>
+
+    <mat-card-actions
+      style="display: flex; justify-content: flex-end; padding-right: 16px"
+    >
+      <span>{{ task.status }}</span>
     </mat-card-actions>
   </mat-card>
 </mat-card>
