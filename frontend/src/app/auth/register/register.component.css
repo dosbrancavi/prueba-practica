@@ -49,3 +49,20 @@ h1 {
 .custome-button:hover {
   background-color: #0d2d4861;
 }
+
+@media (max-width: 600px) {
+  .custome-mat-grid-list {
+    width: 100%;
+    height: 100vh !important;
+    background-color: #fff;
+    border-radius: 10px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    
+  }
+
+  mat-grid-tile {
+    margin: 20% 0;
+  }
+}
