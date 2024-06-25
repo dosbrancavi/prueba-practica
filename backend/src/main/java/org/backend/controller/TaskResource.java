@@ -15,7 +15,6 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 @Path("/tasks")
@@ -28,8 +27,6 @@ public class TaskResource {
 
     @Inject
     private CsrfTokenUtil csrfTokenUtil;
-
-    private static final String TASKS_IMAGES_DIR = "tasksImages";
 
     @GET
     public List<Task> getAllTasks(@HeaderParam("X-CSRF-Token") String csrfToken) {
@@ -53,41 +50,38 @@ public class TaskResource {
     public Response createTask(
             @Valid @MultipartForm TasksDTO taskDto,
             @HeaderParam("X-CSRF-Token") String csrfToken) {
-    
+
         validateCsrfToken(csrfToken);
-    
+
         try {
             String imageUrl = null;
-            
-            // Si se proporcionó un archivo de imagen, guardarla y obtener la URL
+
             if (taskDto.getImageFile() != null) {
                 imageUrl = taskService.saveImage(taskDto.getImageFile());
             }
-    
-            // Crear la tarea con o sin URL de imagen
+
             Task task = new Task(taskDto.getDescription(), taskDto.getStatus(), imageUrl);
             Task createdTask = taskService.createTask(task);
-    
+
             return Response.status(Response.Status.CREATED).entity(createdTask).build();
-    
+
         } catch (IOException e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                           .entity("Error al guardar la imagen: " + e.getMessage())
-                           .build();
+                    .entity("Error al guardar la imagen: " + e.getMessage())
+                    .build();
         }
     }
 
     @PUT
     public Response updateTask(@Valid Task task,
-                               @HeaderParam("X-CSRF-Token") String csrfToken) {
+            @HeaderParam("X-CSRF-Token") String csrfToken) {
         validateCsrfToken(csrfToken);
-        
+
         Long id = task.getId();
-        
+
         Task updatedTask = taskService.updateTask(id, task);
         return Response.ok(updatedTask).build();
     }
-    
 
     @DELETE
     @Path("/{id}")
