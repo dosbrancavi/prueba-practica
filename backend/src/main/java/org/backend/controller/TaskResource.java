@@ -1,10 +1,12 @@
 package org.backend.controller;
 
+import org.backend.dto.TasksDTO;
 import org.backend.entity.Task;
 import org.backend.entity.User;
 import org.backend.exeption.UnauthorizedException;
 import org.backend.service.TaskService;
 import org.backend.util.CsrfTokenUtil;
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
@@ -12,6 +14,8 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @Path("/tasks")
@@ -24,6 +28,8 @@ public class TaskResource {
 
     @Inject
     private CsrfTokenUtil csrfTokenUtil;
+
+    private static final String TASKS_IMAGES_DIR = "tasksImages";
 
     @GET
     public List<Task> getAllTasks(@HeaderParam("X-CSRF-Token") String csrfToken) {
@@ -43,10 +49,30 @@ public class TaskResource {
     }
 
     @POST
-    public Response createTask(@Valid Task task, @HeaderParam("X-CSRF-Token") String csrfToken) {
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response createTask(
+            @Valid @MultipartForm TasksDTO taskDto,
+            @HeaderParam("X-CSRF-Token") String csrfToken) {
+
         validateCsrfToken(csrfToken);
-        Task createdTask = taskService.createTask(task);
-        return Response.status(Response.Status.CREATED).entity(createdTask).build();
+
+        try {
+            // Guardar la imagen y obtener la URL
+            String imageUrl = taskService.saveImage(taskDto.getImageFile());
+
+            // Crear la tarea con la URL de la imagen
+            Task task = new Task(taskDto.getDescription(), taskDto.getStatus(), imageUrl);
+            Task createdTask = taskService.createTask(task);
+
+            // Devolver la respuesta con la tarea creada
+            return Response.status(Response.Status.CREATED).entity(createdTask).build();
+
+        } catch (IOException e) {
+            // Manejar errores al guardar la imagen
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                           .entity("Error al guardar la imagen: " + e.getMessage())
+                           .build();
+        }
     }
 
     @PUT

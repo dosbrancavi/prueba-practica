@@ -97,6 +97,15 @@
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-undertow</artifactId>
         </dependency>
+
+    <dependency>
+    <groupId>io.quarkus</groupId>
+    <artifactId>quarkus-resteasy-multipart</artifactId>
+</dependency>
+        <dependency>
+    <groupId>io.quarkus</groupId>
+    <artifactId>quarkus-undertow</artifactId>
+</dependency>
     </dependencies>
 
     <build>
@@ -154,6 +163,8 @@
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
+
+            
         </plugins>
     </build>
 

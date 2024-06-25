@@ -9,14 +9,36 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.BadRequestException;
 
-import java.util.List;
-import java.util.Optional;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.*;
+import java.util.*;
 
 @ApplicationScoped
 public class TaskService {
 
     @Inject
     private TaskRepository taskRepository;
+
+        private static final String TASKS_IMAGES_DIR = "tasksImages"; // Directorio para almacenar las imágenes
+
+    public String saveImage(InputStream imageFile) throws IOException {
+        // Verificar si el directorio tasksImages existe, si no, crearlo
+        Path directory = Paths.get(TASKS_IMAGES_DIR);
+        if (!Files.exists(directory)) {
+            Files.createDirectories(directory);
+        }
+
+        // Generar un nombre único para la imagen
+        String fileName = UUID.randomUUID().toString() + ".jpg";
+        Path filePath = directory.resolve(fileName);
+
+        // Guardar el archivo de imagen en el servidor local
+        Files.copy(imageFile, filePath, StandardCopyOption.REPLACE_EXISTING);
+
+        return "http://localhost:9090/tasksImages/" + fileName; // Este será el URL que se guarda en la base de datos
+    }
+
 
     @Transactional
     public List<Task> getAllTasks() {
@@ -30,7 +52,6 @@ public class TaskService {
 
     @Transactional
     public Task createTask(Task task) {
-
         return taskRepository.createTask(task);
     }
 
