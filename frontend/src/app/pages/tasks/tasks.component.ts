@@ -25,6 +25,8 @@ export class TasksComponent {
   completedTasks: Task[] = [];
   token = "";
   private taskCreatedSubscription!: Subscription;
+  private taskUpdatedSubscription!: Subscription;
+
 
   constructor(private dataService: DataService) {}
   ngOnInit() {
@@ -35,6 +37,12 @@ export class TasksComponent {
 
     this.taskCreatedSubscription = this.dataService
       .getTaskCreatedObservable()
+      .subscribe(() => {
+        this.loadTasks();
+      });
+
+      this.taskUpdatedSubscription = this.dataService
+      .getTaskUpdatedObservable()
       .subscribe(() => {
         this.loadTasks();
       });

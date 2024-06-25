@@ -19,28 +19,22 @@ import java.util.*;
 public class TaskService {
 
     @Inject
-    private UserRepository userRepository;
-
-    @Inject
     private TaskRepository taskRepository;
 
-    private static final String TASKS_IMAGES_DIR = "tasksImages"; // Directorio para almacenar las imágenes
+    private static final String TASKS_IMAGES_DIR = "tasksImages";
 
     public String saveImage(InputStream imageFile) throws IOException {
-        // Verificar si el directorio tasksImages existe, si no, crearlo
         Path directory = Paths.get(TASKS_IMAGES_DIR);
         if (!Files.exists(directory)) {
             Files.createDirectories(directory);
         }
 
-        // Generar un nombre único para la imagen
         String fileName = UUID.randomUUID().toString() + ".jpg";
         Path filePath = directory.resolve(fileName);
 
-        // Guardar el archivo de imagen en el servidor local
         Files.copy(imageFile, filePath, StandardCopyOption.REPLACE_EXISTING);
 
-        return "http://localhost:9090/tasksImages/" + fileName; // Este será el URL que se guarda en la base de datos
+        return "http://localhost:9090/tasksImages/" + fileName; 
     }
 
     @Transactional
@@ -65,33 +59,31 @@ public class TaskService {
         if (existingTask == null) {
             throw new BadRequestException("Task with id " + id + " not found");
         }
-    
-        // Guardar la URL de la imagen existente antes de actualizar
+
         String existingImageUrl = existingTask.getImageUrl();
-    
-        // Solo eliminar la imagen existente si se proporciona una nueva imagen
+
         if (imageUrl != null && existingImageUrl != null && !imageUrl.equals(existingImageUrl)) {
             deleteImage(existingImageUrl);
         }
-    
-        // Actualizar la URL de la imagen solo si se proporciona una nueva URL
+
         if (imageUrl != null) {
             existingTask.setImageUrl(imageUrl);
         }
-    
+
         existingTask.setDescription(description);
         existingTask.setStatus(status);
-    
+
         if (userId != null) {
             User user = new User();
             user.setId(userId);
             existingTask.setUser(user);
         }
-    
+
         Task updatedTask = taskRepository.updateTask(existingTask);
-    
+
         return updatedTask != null;
     }
+
     @Transactional
     public void deleteTask(Long id) {
         Task existingTask = findTaskById(id);

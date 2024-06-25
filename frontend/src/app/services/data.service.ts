@@ -15,6 +15,7 @@ import { Subject, tap } from "rxjs";
 export class DataService {
   private readonly BASE_URL = environment.BASE_URL;
   private taskCreatedSubject = new Subject<void>();
+  private taskUpdatedSubject = new Subject<void>();
 
   constructor(private httpClient: HttpClient) {}
 
@@ -83,7 +84,7 @@ export class DataService {
     formData.append("status", task.status);
     formData.append("user.id", task.user.id.toString());
 
-    if (task.imageFile ) {
+    if (task.imageFile) {
       formData.append("imageFile", task.imageFile, task.imageFile.name);
     }
     if (task.id !== undefined) {
@@ -94,11 +95,18 @@ export class DataService {
       "X-CSRF-Token": token,
     });
 
-    return this.httpClient.put<Task>(`${this.BASE_URL}/tasks`, formData, {
-      headers,
-    });
+    return this.httpClient
+      .put<Task>(`${this.BASE_URL}/tasks`, formData, { headers })
+      .pipe(
+        tap(() => {
+          this.taskUpdatedSubject.next();
+        })
+      );
   }
 
+  getTaskUpdatedObservable() {
+    return this.taskUpdatedSubject.asObservable();
+  }
   deleteTask(id: number, token: string) {
     const headers = new HttpHeaders({
       "X-CSRF-Token": token,

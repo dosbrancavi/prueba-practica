@@ -86,7 +86,6 @@ public class TaskResource {
         try {
             String imageUrl = null;
     
-            // Obtener la tarea existente para obtener la URL de la imagen actual
             Long taskId = Long.valueOf(taskDto.getId());
             Task existingTask = taskService.findTaskById(taskId);
     
@@ -96,11 +95,9 @@ public class TaskResource {
                         .build();
             }
     
-            // Si se proporciona un nuevo archivo de imagen, guardarlo y actualizar la URL
             if (taskDto.getImageFile() != null) {
                 imageUrl = taskService.saveImage(taskDto.getImageFile());
             } else {
-                // Si no se proporciona un nuevo archivo de imagen, mantener la URL de la imagen existente
                 imageUrl = existingTask.getImageUrl();
             }
     
