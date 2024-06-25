@@ -6,7 +6,7 @@ import {
   RegisterRequest,
   UserResponse,
 } from "../interfaces/user.interface";
-import { Task } from "../interfaces/task.interface";
+import { CreateTask, Task } from "../interfaces/task.interface";
 import { Subject, tap } from "rxjs";
 
 @Injectable({
@@ -32,14 +32,22 @@ export class DataService {
     );
   }
 
-  createTask(request: Task, token: string) {
+  createTask(request: CreateTask, token: string) {
+    const formData = new FormData();
+    formData.append('description', request.description);
+    formData.append('status', request.status);
+    formData.append('user[id]', request.user.id.toString());
+
+    if (request.imageFile) {
+      formData.append('imageFile', request.imageFile, request.imageFile.name);
+    }
+
     const headers = new HttpHeaders({
       "X-CSRF-Token": token,
-      "Content-Type": "application/json",
     });
 
     return this.httpClient
-      .post<Task>(`${this.BASE_URL}/tasks`, request, { headers })
+      .post<Task>(`${this.BASE_URL}/tasks`, formData, { headers })
       .pipe(
         tap(() => {
           this.taskCreatedSubject.next();

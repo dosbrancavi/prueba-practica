@@ -13,7 +13,9 @@
     </mat-card-content>
     @if (task.imageUrl) {
       <mat-card-content>
-        <img src="{{task.imageUrl}}"/>
+        <div>
+          <img src="{{ task.imageUrl }}" class="card-image">
+        </div>
       </mat-card-content>
     }
     

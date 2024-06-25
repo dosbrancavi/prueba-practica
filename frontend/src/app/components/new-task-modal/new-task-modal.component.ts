@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DataService } from '../../services/data.service';
-import { Task } from '../../interfaces/task.interface';
+import { CreateTask, Task } from '../../interfaces/task.interface';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,13 +16,11 @@ import { MatSelectModule } from '@angular/material/select';
   styleUrl: './new-task-modal.component.css'
 })
 export class NewTaskModalComponent {
-  loading = true;
-  token = '';
-  id = null;
-
   createTaskForm: FormGroup;
   selectedFile: File | null = null;
   selectedFileName: string | null = null;
+  token = '';
+  id = null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -59,26 +57,34 @@ export class NewTaskModalComponent {
 
   create(): void {
     if (this.createTaskForm.valid) {
-      const user = JSON.parse(localStorage.getItem('user')!);
-      const token = user.csrfToken;
-      const id = user.id;
+     const user = JSON.parse(localStorage.getItem('user')!);
+      this.token = user.csrfToken;
+      this.id = user.user.id;
 
-      const body: Task = {
+      console.log(this.selectedFile)
+      // if (!id) {
+      //   console.error('No se pudo obtener el ID del usuario.');
+      //   return;
+      // }
+
+      const body: CreateTask = {
         description: this.description!.value,
         status: this.status!.value,
-        imageUrl: this.imageUrl!.value,
-        user: { id: id }
+        imageFile: this.selectedFile,
+        user: { id: this.id! }
       };
 
-      this.dataService.createTask(body, token).subscribe({
+      this.dataService.createTask(body, this.token).subscribe({
         next: (res) => {
           console.log(res);
-          this.close(); 
+          this.close();
         },
         error: (err) => {
-          console.log(err);
+          console.error('Error al crear la tarea:', err);
         }
       });
+    } else {
+      console.error('El formulario no es válido.');
     }
   }
 }
