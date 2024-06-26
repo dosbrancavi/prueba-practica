@@ -83,7 +83,7 @@ export class EditTaskModalComponent {
         .updateTask(updatedTask, this.token)
         .subscribe({
           next: (res) => {
-            this.dialogRef.close(res);
+            this.dialogRef.close(updatedTask);
           },
           error: (err) => {
             if (err.status === 401) {

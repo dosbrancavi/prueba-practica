@@ -19,6 +19,14 @@
             </mat-select>
           </mat-form-field>
         </mat-grid-tile>
+
+        <mat-grid-tile class="custom-mat-grid-tile">
+          <div class="file-upload-container">
+            <button class="custome-button" type="button" mat-raised-button color="primary" (click)="fileInput.click()">Subir Imagen</button>
+            <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file">
+          </div>
+        </mat-grid-tile>
+        
         
       <mat-grid-tile class="custom-mat-grid-tile">
         <button type="submit" mat-raised-button class="custome-button">Enviar</button>
@@ -26,5 +34,6 @@
       <mat-grid-tile class="custom-mat-grid-tile">
         <button (click)="delete()" mat-raised-button class="custome-button-delete">Eliminar</button>
       </mat-grid-tile>
+
     </mat-grid-list>
   </form>
