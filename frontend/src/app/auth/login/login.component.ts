@@ -1,11 +1,12 @@
 import { JsonPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DataService } from '../../services/data.service';
 import { LoginRequest, UserResponse } from '../../interfaces/user.interface';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatInputModule } from '@angular/material/input';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,7 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class LoginComponent {
 
-  loading = false;
+  router: Router = inject(Router);
   
   constructor(private formBuilder: FormBuilder, private dataService: DataService){}
   
@@ -30,7 +31,6 @@ export class LoginComponent {
 
   login(){
     if (this.loginFrom.valid) {
-      this.loading = true;
 
       const body: LoginRequest = {
         password: this.password.value,
@@ -39,9 +39,8 @@ export class LoginComponent {
 
       this.dataService.login(body).subscribe({
         next: (res) => {
-          console.log(res);
           localStorage.setItem('user', JSON.stringify(res));
-          this.loading = false;
+          this.router.navigate(['/tasks']);
         },
         error: (err) => {
           console.log(err);

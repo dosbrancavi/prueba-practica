@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { MatCardModule } from "@angular/material/card";
 import { MatGridListModule } from "@angular/material/grid-list";
 import { NewTaskComponent } from "../../components/new-task/new-task.component";
@@ -7,6 +7,7 @@ import { Task } from "../../interfaces/task.interface";
 import { DataService } from "../../services/data.service";
 import { Subscription } from "rxjs";
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Router } from "@angular/router";
 
 
 @Component({
@@ -26,6 +27,8 @@ export class TasksComponent {
   inProgressTasks: Task[] = [];
   completedTasks: Task[] = [];
   token = "";
+  router: Router = inject(Router);
+
   private taskCreatedSubscription!: Subscription;
   private taskUpdatedSubscription!: Subscription;
   cols = 3;
@@ -34,6 +37,9 @@ export class TasksComponent {
 
   constructor(private dataService: DataService, private breakpointObserver: BreakpointObserver) {}
 
+  navigateProfile(){
+    this.router.navigate(['/profile']);
+  }
   ngOnInit() {
     const user = JSON.parse(localStorage.getItem("user")!);
     this.token = user.csrfToken;
@@ -78,7 +84,7 @@ export class TasksComponent {
         );
       },
       error: (err) => {
-        console.log(err);
+        console.log('error',err.error);
       },
     });
   }

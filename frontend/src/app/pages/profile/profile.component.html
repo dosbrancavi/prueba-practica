@@ -1,0 +1,25 @@
+<div class="container">
+    <mat-card class="card-container">
+        <img class="profile" src="https://avatars.githubusercontent.com/u/60197179?v=4&size=64"/>
+        <mat-card class="card-content">
+            <mat-card-content class="data" >
+                <mat-grid-list cols="2" rowHeight="150px">
+                    <mat-grid-tile>
+                        <p><b>Usuario: </b> {{name}}</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <p><b>Edad: </b> {{age}}</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <p><b>Telefono: </b> {{phoneNumber}}</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <p><b>Genero: </b> {{gender}}</p>
+                    </mat-grid-tile>
+                </mat-grid-list>
+                <button (click)="logOut()" mat-raised-button>Cerrar sesion</button>
+            </mat-card-content>
+        </mat-card>
+            
+    </mat-card>
+</div>
