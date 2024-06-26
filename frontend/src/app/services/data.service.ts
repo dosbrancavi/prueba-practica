@@ -16,6 +16,7 @@ export class DataService {
   private readonly BASE_URL = environment.BASE_URL;
   private taskCreatedSubject = new Subject<void>();
   private taskUpdatedSubject = new Subject<void>();
+  private taskDeletedSubject = new Subject<void>();
 
   constructor(private httpClient: HttpClient) {}
 
@@ -114,6 +115,13 @@ export class DataService {
     });
     return this.httpClient.delete<Task>(`${this.BASE_URL}/tasks/${id}`, {
       headers,
-    });
+    }).pipe(
+      tap(() => {
+        this.taskDeletedSubject.next();
+      })
+    );
+  }
+  getTaskDeletedObservable() {
+    return this.taskDeletedSubject.asObservable();
   }
 }

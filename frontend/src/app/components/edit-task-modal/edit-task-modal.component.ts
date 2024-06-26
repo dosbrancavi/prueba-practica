@@ -96,6 +96,23 @@ export class EditTaskModalComponent {
     }
   }
 
+  delete(){
+    const user = JSON.parse(localStorage.getItem("user")!);
+    this.token = user.csrfToken
+    this.dataService.deleteTask(this.task.id!,this.token).subscribe({
+      next: (res) => {
+        this.close();
+      },
+      error: (err) => {
+        if(err.status === 401){
+          localStorage.removeItem('user');
+          this.router.navigate(['/login'])
+          this.close();
+        }
+      }
+    })
+  }
+
   close(): void {
     this.dialogRef.close();
   }

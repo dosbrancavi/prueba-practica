@@ -33,6 +33,8 @@ export class TasksComponent {
 
   private taskCreatedSubscription!: Subscription;
   private taskUpdatedSubscription!: Subscription;
+  private taskDeleteSubscription!: Subscription;
+
   cols = 3;
   heigth = 'fit';
   userName = '';
@@ -66,6 +68,12 @@ export class TasksComponent {
       .subscribe(() => {
         this.loadTasks();
       });
+
+      this.taskDeleteSubscription = this.dataService
+    .getTaskDeletedObservable()
+    .subscribe(() => {
+      this.loadTasks();
+    });
 
       const customBreakpoint = this.breakpointObserver.observe('(min-width: 924px)');
       customBreakpoint.subscribe((state: BreakpointState) => {
