@@ -77,8 +77,6 @@ export class NewTaskModalComponent {
       this.token = user.csrfToken;
       this.id = user.user.id;
 
-      console.log(this.selectedFile);
-
       const body: CreateTask = {
         description: this.description!.value,
         status: this.status!.value,

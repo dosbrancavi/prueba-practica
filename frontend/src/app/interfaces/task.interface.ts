@@ -1,10 +1,10 @@
 export interface Task {
     description: string;
     status: string;
-    imageUrl: string;
     user: {
       id: number;
     };
+    imageUrl?: string;
     id?: number;
     imageFile?: File | null;
   }
@@ -17,4 +17,5 @@ export interface CreateTask{
         id: number 
     },
     imageFile?: File| null,
+    
 }

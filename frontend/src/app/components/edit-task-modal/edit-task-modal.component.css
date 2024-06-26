@@ -1,0 +1,44 @@
+
+h1 {
+    color: #24223f;
+    margin-top: 24px;
+}
+.custom-mat-form-field{
+    width: 70%;
+}
+.file-upload-container{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.file-upload-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .file-upload-container button {
+    margin-right: 15px;
+  }
+  
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+
+.custome-button {
+    background-color: #31a2eb !important;
+    color: #fff !important;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 4px;
+    width: 70%;
+    transition: background-color 0.3s ease;
+  }
+  
+  .custome-button:hover {
+    background-color: #0d2d4861;
+  }
+  

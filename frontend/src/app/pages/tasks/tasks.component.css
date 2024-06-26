@@ -1,11 +1,26 @@
 .container {
-    margin: 16px;
     height: calc(100vh - 100px);
   }
-  
+  .profile{
+    height: 40px;
+    width: 40px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+  .user-profile{
+    color: #fff;
+    font-size: 20px;
+    position: absolute;
+    top: 25px;
+    left: 70px;
+    cursor: pointer;
+  }
   mat-grid-list {
     height: 100%;
     min-width: 300px;
+    margin-top: 5px;
   }
   
   mat-grid-tile {

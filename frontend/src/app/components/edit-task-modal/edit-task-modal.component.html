@@ -1,40 +1,27 @@
 <form [formGroup]="editTaskForm" (ngSubmit)="save()">
-  <mat-grid-list cols="1" rowHeight="70px">
-    <mat-grid-tile>
-      <mat-form-field appearance="fill">
-        <mat-label>Descripcion</mat-label>
-        <input
-          matInput
-          formControlName="description"
-          placeholder="Descripcion"
-        />
-      </mat-form-field>
-    </mat-grid-tile>
-    <mat-grid-tile>
-      <mat-form-field appearance="fill">
-        <mat-label>Estado</mat-label>
-        <mat-select formControlName="status" placeholder="Seleccionar estado">
-          <mat-option value="Pendiente">Pendiente</mat-option>
-          <mat-option value="En progreso">En progreso</mat-option>
-          <mat-option value="Completada">Completada</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </mat-grid-tile>
-    <mat-grid-tile>
-      <mat-form-field appearance="fill">
-        <mat-label>URL de Imagen</mat-label>
-        <input
-          matInput
-          formControlName="imageUrl"
-          placeholder="URL de Imagen"
-        />
-      </mat-form-field>
-    </mat-grid-tile>
-    <mat-grid-tile>
-      <button type="submit" mat-raised-button color="primary">Guardar</button>
-      <button type="button" mat-raised-button (click)="close()">
-        Cancelar
-      </button>
-    </mat-grid-tile>
-  </mat-grid-list>
-</form>
+  <mat-grid-list class="custome-mat-grid-list" cols="1" rowHeight="70px">
+      <mat-grid-tile class="custom-mat-grid-tile">
+          <h1>Editar tarea</h1>
+      </mat-grid-tile>
+      <mat-grid-tile class="custom-mat-grid-tile">
+        <mat-form-field appearance="fill" class="custom-mat-form-field">
+          <mat-label>Descripcion</mat-label>
+          <input matInput formControlName="description" placeholder="Descripcion" />
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile class="custom-mat-grid-tile">
+          <mat-form-field appearance="fill" class="custom-mat-form-field">
+            <mat-label>Estado</mat-label>
+            <mat-select formControlName="status" placeholder="Seleccionar estado">
+              <mat-option value="Pendiente">Pendiente</mat-option>
+              <mat-option value="En progreso">En progreso</mat-option>
+              <mat-option value="Completada">Completada</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+        
+      <mat-grid-tile class="custom-mat-grid-tile">
+        <button type="submit" mat-raised-button class="custome-button">Enviar</button>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </form>

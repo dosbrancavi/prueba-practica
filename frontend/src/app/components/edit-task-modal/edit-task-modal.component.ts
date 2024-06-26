@@ -7,7 +7,7 @@ import {
 } from "@angular/forms";
 import { DataService } from "../../services/data.service";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { Task } from "../../interfaces/task.interface";
+import { CreateTask, Task } from "../../interfaces/task.interface";
 import { MatButtonModule } from "@angular/material/button";
 import { MatGridListModule } from "@angular/material/grid-list";
 import { MatInputModule } from "@angular/material/input";
@@ -27,7 +27,8 @@ import { MatSelectModule } from "@angular/material/select";
   styleUrl: "./edit-task-modal.component.css",
 })
 export class EditTaskModalComponent {
-
+  selectedFile: File | null = null;
+  selectedFileName: string | null = null;
   token = ''
   constructor(
     private formBuilder: FormBuilder,
@@ -52,15 +53,30 @@ export class EditTaskModalComponent {
     return this.editTaskForm.get("imageUrl");
   }
 
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+      this.selectedFileName = this.selectedFile.name;
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.editTaskForm.patchValue({ imageUrl: reader.result });
+      };
+      reader.readAsDataURL(this.selectedFile);
+    }
+  }
+
   save(): void {
+
+    this.task.imageFile = this.selectedFile
     if (this.editTaskForm.valid) {
       const updatedTask = {
         ...this.task,
         ...this.editTaskForm.value,
       };
-
+      console.log(updatedTask);
       const user = JSON.parse(localStorage.getItem("user")!);
-      console.log(user)
+     
       this.token = user.csrfToken
       this.dataService
         .updateTask(updatedTask, this.token)

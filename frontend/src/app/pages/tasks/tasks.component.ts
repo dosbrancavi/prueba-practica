@@ -6,7 +6,7 @@ import { TaskListComponent } from "../../components/task-list/task-list.componen
 import { Task } from "../../interfaces/task.interface";
 import { DataService } from "../../services/data.service";
 import { Subscription } from "rxjs";
-import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 
 @Component({
@@ -29,13 +29,17 @@ export class TasksComponent {
   private taskCreatedSubscription!: Subscription;
   private taskUpdatedSubscription!: Subscription;
   cols = 3;
-  heigth = 'fit'
+  heigth = 'fit';
+  userName = '';
 
   constructor(private dataService: DataService, private breakpointObserver: BreakpointObserver) {}
 
   ngOnInit() {
     const user = JSON.parse(localStorage.getItem("user")!);
     this.token = user.csrfToken;
+    this.userName = user.user.username;
+
+    console.log(user.user.username)
 
     this.loadTasks();
 
@@ -54,7 +58,7 @@ export class TasksComponent {
       this.breakpointObserver.observe([Breakpoints.Handset])
       .subscribe(result => {
         this.cols = result.matches ? 1 : 3;
-        this.heigth = result.matches ? '95vh' : 'fit'
+        this.heigth = result.matches ? '86vh' : 'fit'
       });
   }
 
