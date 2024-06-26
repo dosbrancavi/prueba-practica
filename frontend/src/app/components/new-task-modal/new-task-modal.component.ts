@@ -89,7 +89,6 @@ export class NewTaskModalComponent {
 
       this.dataService.createTask(body, this.token).subscribe({
         next: (res) => {
-          console.log(res);
           this.close();
         },
         error: (err) => {

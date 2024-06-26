@@ -1,3 +1,8 @@
 :root {
     background-color: #000;
 }
+
+.error-snackbar {
+    color: white;
+    margin-bottom: 60px;
+  }

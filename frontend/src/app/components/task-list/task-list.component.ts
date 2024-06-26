@@ -55,7 +55,5 @@ resetDraggingState(): void {
   const columns = document.querySelectorAll('.task-card');
   columns.forEach(column => column.classList.remove('dragging'));
 }
-  ngOnInit() {
-    console.log(this.pendingTasks);
-  }
+
 }

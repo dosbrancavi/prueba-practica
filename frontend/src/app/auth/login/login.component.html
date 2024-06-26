@@ -18,6 +18,14 @@
     <mat-grid-tile class="custom-mat-grid-tile">
       <button mat-raised-button class="custome-button">Enviar</button>
     </mat-grid-tile>
+    @if (error) {
+      <mat-grid-tile class="custom-mat-grid-tile">
+        <mat-chip color="warn">
+          Usuario o contraseña invalido
+        </mat-chip>
+      </mat-grid-tile>
+    }
+    
   </mat-grid-list>
 </form>
 

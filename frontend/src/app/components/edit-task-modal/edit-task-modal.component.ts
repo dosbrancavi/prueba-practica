@@ -76,7 +76,6 @@ export class EditTaskModalComponent {
         ...this.task,
         ...this.editTaskForm.value,
       };
-      console.log(updatedTask);
       const user = JSON.parse(localStorage.getItem("user")!);
      
       this.token = user.csrfToken
@@ -87,7 +86,6 @@ export class EditTaskModalComponent {
             this.dialogRef.close(res);
           },
           error: (err) => {
-            console.log(err.status, 'update');
             if (err.status === 401) {
               localStorage.removeItem('user');
               this.router.navigate(['/login']);

@@ -2,7 +2,6 @@ import { inject } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from "@angular/router";
 
 export const canActivateAuthnGuard: CanActivateFn = (_: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
-  console.log(state);
   return verifyAuthToken(state)
 }
 

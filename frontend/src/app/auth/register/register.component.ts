@@ -1,23 +1,28 @@
 import { JsonPipe, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { DataService } from '../../services/data.service';
 import { RegisterRequest } from '../../interfaces/user.interface';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatInputModule } from '@angular/material/input';
+import { MatChipsModule } from '@angular/material/chips';
+import { Router } from '@angular/router';
 
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, MatButtonModule, MatInputModule , MatGridListModule, NgIf, JsonPipe],
+  imports: [ReactiveFormsModule, MatButtonModule, MatInputModule , MatGridListModule, MatChipsModule, NgIf, JsonPipe],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
   
-  loading = false;
+  error = false;
+  success = false;
+  router: Router = inject(Router);
+
 
   constructor(private formBuilder: FormBuilder, private dataService: DataService){}
   
@@ -37,7 +42,6 @@ export class RegisterComponent {
   
   register(){
     if (this.registerForm.valid) {
-      this.loading = true;
       const body: RegisterRequest = {
         age: this.age.value,
         gender: this.gender.value,
@@ -47,11 +51,16 @@ export class RegisterComponent {
       }
       this.dataService.register(body).subscribe({
         next: (res) => {
-          console.log(res);
-          this.loading = false;
+          this.success = true;
+          setTimeout(() => {
+            this.success = false;
+            this.router.navigate(['/login']);
+          }, 3000)
+
         },
         error: (err) => {
-          console.log(err)
+          this.error = true;
+          setTimeout(() => {this.error = false;}, 3000)
         }
       })
     }

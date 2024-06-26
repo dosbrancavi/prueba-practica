@@ -6,7 +6,7 @@ import { TaskListComponent } from "../../components/task-list/task-list.componen
 import { Task } from "../../interfaces/task.interface";
 import { DataService } from "../../services/data.service";
 import { Subscription } from "rxjs";
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
 import { Router } from "@angular/router";
 import { MatIconModule } from "@angular/material/icon";
 
@@ -52,7 +52,6 @@ export class TasksComponent {
     this.token = user.csrfToken;
     this.userName = user.user.username;
 
-    console.log(user.user.username)
 
     this.loadTasks();
 
@@ -68,10 +67,15 @@ export class TasksComponent {
         this.loadTasks();
       });
 
-      this.breakpointObserver.observe([Breakpoints.Handset])
-      .subscribe(result => {
-        this.cols = result.matches ? 1 : 3;
-        this.heigth = result.matches ? '90vh' : 'fit'
+      const customBreakpoint = this.breakpointObserver.observe('(min-width: 924px)');
+      customBreakpoint.subscribe((state: BreakpointState) => {
+        if (state.matches) {
+          this.cols = 3;
+          this.heigth = 'fit';
+        } else {
+          this.cols = 1;
+          this.heigth = '90vh';
+        }
       });
   }
 
@@ -91,7 +95,6 @@ export class TasksComponent {
         );
       },
       error: (err) => {
-        console.log(err, 'load');
         if (err.status === 401) {
           localStorage.removeItem('user');
           this.router.navigate(['/login']);
@@ -111,7 +114,6 @@ export class TasksComponent {
 
     this.dataService.updateTask(task, this.token).subscribe({
       error: (err) => {
-        console.log(err.status);
         if (err.status === 401) {
           localStorage.removeItem('user');
           this.router.navigate(['/login']);

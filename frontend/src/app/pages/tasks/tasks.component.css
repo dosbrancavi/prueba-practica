@@ -19,8 +19,8 @@
   }
   mat-grid-list {
     height: 100%;
-    min-width: 300px;
     margin-top: 5px;
+    min-width: 316px;
   }
   
   mat-grid-tile {

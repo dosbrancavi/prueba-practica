@@ -5,7 +5,14 @@
     justify-content: center;
     height: 90vh;
   }
-  
+  .custome-mat-grid-list {
+    width: 30%;
+    height: 55vh !important;
+    background-color: #fff;
+    border-radius: 10px;
+    min-width: 500px;
+    
+  }
   mat-grid-tile {
     margin: 40px 0;
   }
@@ -14,13 +21,7 @@
     color: #24223f;
   }
    
-  .custome-mat-grid-list {
-    width: 30%;
-    height: 50vh !important;
-    background-color: #fff;
-    border-radius: 10px;
-    
-  }
+  
   
   .custom-mat-form-field {
     width: 70%;
@@ -48,6 +49,12 @@
     background-color: #0d2d4861;
   }
   
+  mat-chip{
+    position: relative;
+    bottom: 30px;
+  }
+
+  
   @media (max-width: 600px) {
     .custome-mat-grid-list {
       width: 100%;
@@ -57,10 +64,16 @@
       display:flex;
       align-items: center;
       justify-content: center;
+      min-width: 300px;
       
     }
 
     mat-grid-tile {
       margin: 50% 0;
+    }
+
+    mat-chip{
+      position: relative;
+      bottom: 30px;
     }
   }

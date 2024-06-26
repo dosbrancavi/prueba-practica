@@ -102,5 +102,21 @@
     <mat-grid-tile>
       <button mat-raised-button class="custome-button" type="submit">Enviar</button>
     </mat-grid-tile>
+
+    @if (error) {
+      <mat-grid-tile class="custom-mat-grid-tile">
+        <mat-chip color="warn">
+          No se pudo crear el usuario
+        </mat-chip>
+      </mat-grid-tile>
+    }
+
+    @if (success) {
+      <mat-grid-tile class="custom-mat-grid-tile">
+        <mat-chip color="warn">
+          Usuario creado de forma exitosa
+        </mat-chip>
+      </mat-grid-tile>
+    }
   </mat-grid-list>
 </form>

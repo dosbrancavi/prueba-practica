@@ -21,7 +21,6 @@ export class NewTaskComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('El modal se cerró');
     });
   }
 }
