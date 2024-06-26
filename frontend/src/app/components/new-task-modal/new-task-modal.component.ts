@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
@@ -12,6 +12,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";
 import { MatGridListModule } from "@angular/material/grid-list";
 import { MatSelectModule } from "@angular/material/select";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-new-task-modal",
@@ -31,6 +32,8 @@ export class NewTaskModalComponent {
   selectedFileName: string | null = null;
   token = "";
   id = null;
+  router: Router = inject(Router)
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -90,7 +93,11 @@ export class NewTaskModalComponent {
           this.close();
         },
         error: (err) => {
-          console.error("Error al crear la tarea:", err);
+          if (err.status === 401) {
+             localStorage.removeItem('user');
+            this.router.navigate(['/login']);
+            this.close();
+          }
         },
       });
     } else {

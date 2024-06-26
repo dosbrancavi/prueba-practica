@@ -2,6 +2,7 @@
   <div class="nav">
     <img (click)="navigateProfile()" class="profile" src="https://avatars.githubusercontent.com/u/60197179?v=4&size=64"/>
     <mat-card-title (click)="navigateProfile()" class="user-profile">{{userName}}</mat-card-title>
+    <mat-icon (click)="logOut()" class="logout">logout</mat-icon>
   </div>
   <mat-grid-list [cols]="cols" [rowHeight]="heigth" gutterSize="16px">
     <mat-grid-tile>

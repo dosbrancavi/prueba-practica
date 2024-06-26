@@ -1,4 +1,4 @@
-import { Component, Inject } from "@angular/core";
+import { Component, Inject, inject } from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
@@ -12,6 +12,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatGridListModule } from "@angular/material/grid-list";
 import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-edit-task-modal",
@@ -30,6 +31,7 @@ export class EditTaskModalComponent {
   selectedFile: File | null = null;
   selectedFileName: string | null = null;
   token = ''
+  router: Router = inject(Router)
   constructor(
     private formBuilder: FormBuilder,
     private dataService: DataService,
@@ -85,7 +87,12 @@ export class EditTaskModalComponent {
             this.dialogRef.close(res);
           },
           error: (err) => {
-            console.error(err);
+            console.log(err.status, 'update');
+            if (err.status === 401) {
+              localStorage.removeItem('user');
+              this.router.navigate(['/login']);
+              this.close();
+            }
           },
         });
     }

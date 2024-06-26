@@ -8,6 +8,7 @@ import { DataService } from "../../services/data.service";
 import { Subscription } from "rxjs";
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Router } from "@angular/router";
+import { MatIconModule } from "@angular/material/icon";
 
 
 @Component({
@@ -18,6 +19,7 @@ import { Router } from "@angular/router";
     MatCardModule,
     NewTaskComponent,
     TaskListComponent,
+    MatIconModule
   ],
   templateUrl: "./tasks.component.html",
   styleUrl: "./tasks.component.css",
@@ -39,6 +41,11 @@ export class TasksComponent {
 
   navigateProfile(){
     this.router.navigate(['/profile']);
+  }
+
+  logOut(){
+    localStorage.removeItem('user');
+    this.router.navigate(['/login'])
   }
   ngOnInit() {
     const user = JSON.parse(localStorage.getItem("user")!);
@@ -64,7 +71,7 @@ export class TasksComponent {
       this.breakpointObserver.observe([Breakpoints.Handset])
       .subscribe(result => {
         this.cols = result.matches ? 1 : 3;
-        this.heigth = result.matches ? '86vh' : 'fit'
+        this.heigth = result.matches ? '90vh' : 'fit'
       });
   }
 
@@ -84,7 +91,11 @@ export class TasksComponent {
         );
       },
       error: (err) => {
-        console.log('error',err.error);
+        console.log(err, 'load');
+        if (err.status === 401) {
+          localStorage.removeItem('user');
+          this.router.navigate(['/login']);
+        }
       },
     });
   }
@@ -98,7 +109,15 @@ export class TasksComponent {
 
     this.addToNewList(task, newStatus);
 
-    this.dataService.updateTask(task, this.token).subscribe();
+    this.dataService.updateTask(task, this.token).subscribe({
+      error: (err) => {
+        console.log(err.status);
+        if (err.status === 401) {
+          localStorage.removeItem('user');
+          this.router.navigate(['/login']);
+        }
+      }
+    });
   }
 
   private removeFromCurrentList(task: Task): void {
