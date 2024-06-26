@@ -1,0 +1,47 @@
+<mat-dialog-content>
+    <div >
+    @switch (sliderValue) {
+        @case(1){
+        <div class="img-container">
+            <img src="register.png" alt="">
+        </div>
+        
+        <p>Registrate en la aplicaicon</p>
+    }
+        @case  (2) {
+            <div class="img-container">
+
+            <img src="login.png" alt="">
+        </div>
+
+            <p>Inicia sesion</p>
+    
+    
+        }@case  (3) {
+            <div class="img-container">
+
+            <img src="tasks.png" alt="">
+        </div>
+
+            <p>Crea edita y mueve entre columnas las tareas</p>
+    
+        }@case (4){
+            <div class="img-container">
+
+            <img src="profile.png" alt="">
+        </div>
+
+            <p>Visualiza los datos de tu usuario</p>
+        }
+
+    }
+   
+</div>
+  </mat-dialog-content>
+  <div >
+      <mat-dialog-actions class="button-container">
+          <button class="custome-button " mat-raised-button  (click)="next()">Avanzar</button>
+          <button class="custome-button " mat-raised-button  (click)="previous()">Retroceder</button>
+          <button class="custome-button " mat-raised-button (click)="noGuide()"  mat-dialog-close>No volver a mostrar</button>
+        </mat-dialog-actions>
+    </div>
