@@ -41,4 +41,37 @@ h1 {
   .custome-button:hover {
     background-color: #0d2d4861;
   }
+
+  .disabled{
+    background-color: lightgray !important;
+    color: #fff !important;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 4px;
+    width: 70%;
+    transition: background-color 0.3s ease;
+  }
   
+ /* Estilos para el canvas de la imagen */
+canvas {
+  display: block; /* Asegura que el canvas se comporte como un bloque */
+  margin: auto; /* Centra el canvas horizontalmente */
+  border: 1px solid #ccc; /* Borde del canvas para visualización */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Sombra ligera para resaltar */
+  cursor: crosshair
+}
+
+/* Estilos para el área de recorte */
+.crop-controls {
+  margin-top: 10px; /* Espacio superior para los controles de recorte */
+  text-align: center; /* Centra los botones de cancelar y finalizar */
+}
+
+.crop-controls button {
+  margin: 0 10px; /* Margen entre los botones */
+}
+
+.canvas-cropping canvas {
+  border-color: #007bff; /* Color del borde activo durante el recorte */
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.3); /* Sombra más definida durante el recorte */
+}
