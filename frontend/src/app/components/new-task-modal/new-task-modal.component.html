@@ -1,4 +1,4 @@
-@if (!isCropping){<form [formGroup]="createTaskForm" (ngSubmit)="create()">
+<form [formGroup]="createTaskForm" (ngSubmit)="create()">
 <mat-grid-list class="custome-mat-grid-list" cols="1" rowHeight="70px">
     <mat-grid-tile class="custom-mat-grid-tile">
         <h1>Crear Tarea</h1>
@@ -22,28 +22,26 @@
 
       <mat-grid-tile class="custom-mat-grid-tile">
         <div class="file-upload-container">
-          <!-- <button *ngIf="!description.errors?.['required']" disabled="true" class="custome-button" type="button" mat-raised-button color="primary" (click)="fileInput.click()">Subir Imagen</button> -->
-          @if (description.errors?.['required']) {
-            <button  disabled="true" class="disabled" type="button" mat-raised-button  (click)="fileInput.click()">Subir Imagen</button>
-          <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file">
-          }@else{
-            <button  disabled="false" class="custome-button" type="button" mat-raised-button  (click)="fileInput.click()">Subir Imagen</button>
-            <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file">
-          }
-          
+            <input mat-bottom type="file" (change)="fileChangeEvent($event)" />
         </div>
       </mat-grid-tile>
+      <mat-grid-tile class="custom-mat-grid-tile">
+
+<image-cropper
+    [imageChangedEvent]="imageChangedEvent"
+    [maintainAspectRatio]="true"
+    [aspectRatio]="1 / 1"
+    format="png"
+    (imageCropped)="imageCropped($event)"
+    (imageLoaded)="imageLoaded($event)"
+    (cropperReady)="cropperReady()"
+    (loadImageFailed)="loadImageFailed()"
+></image-cropper>
+
+<img style="height: 90px;" [src]="croppedImage" />
+</mat-grid-tile>
     <mat-grid-tile class="custom-mat-grid-tile">
       <button type="submit" mat-raised-button class="custome-button">Enviar</button>
     </mat-grid-tile>
   </mat-grid-list>
-</form>}@else if (isCropping) {
-  <form [formGroup]="createTaskForm" >
-     <h2>Recortar Imagen</h2>
-    <canvas #imageCanvas></canvas>
-    <div class="crop-controls">
-      <button mat-button color="warn" (click)="cancelCropping()">Cancelar</button>
-      <button  mat-button color="primary" (click)="finalizeCropping()">Finalizar</button>
-    </div>
-  </form>
-}
+</form>
