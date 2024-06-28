@@ -33,12 +33,13 @@
     [aspectRatio]="1 / 1"
     format="png"
     (imageCropped)="imageCropped($event)"
-    (imageLoaded)="imageLoaded($event)"
-    (cropperReady)="cropperReady()"
-    (loadImageFailed)="loadImageFailed()"
 ></image-cropper>
 
 <img style="height: 90px;" [src]="croppedImage" />
+@if (imageBlob === null  || imageBlob === undefined) {
+
+  <p>La imagen se requiere para crear la tarea</p>
+}
 </mat-grid-tile>
     <mat-grid-tile class="custom-mat-grid-tile">
       <button type="submit" mat-raised-button class="custome-button">Enviar</button>

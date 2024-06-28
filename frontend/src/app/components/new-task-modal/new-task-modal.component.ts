@@ -82,18 +82,6 @@ export class NewTaskModalComponent {
     this.dialogRef.close();
   }
 
-  imageLoaded(image: LoadedImage): void {
-    // Image loaded
-  }
-
-  cropperReady(): void {
-    // Cropper ready
-  }
-
-  loadImageFailed(): void {
-    // Show message
-  }
-
   create(): void {
     if (this.imageBlob) {
       const imageFile = new File([this.imageBlob], this.selectedFileName || 'croppedImage.png', { type: 'image/png' });
