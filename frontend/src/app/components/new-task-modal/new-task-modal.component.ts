@@ -56,7 +56,6 @@ export class NewTaskModalComponent {
     private dataService: DataService,
     private router: Router,
     private dialogRef: MatDialogRef<NewTaskModalComponent>,
-    private cdr: ChangeDetectorRef,
     private sanitizer: DomSanitizer
   ) {}
 
