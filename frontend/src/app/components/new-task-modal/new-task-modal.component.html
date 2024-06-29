@@ -1,49 +1,60 @@
-<form [formGroup]="createTaskForm" (ngSubmit)="create()">
-  <mat-grid-list class="custome-mat-grid-list" cols="1" rowHeight="70px">
-    <mat-grid-tile class="custom-mat-grid-tile">
-      <h1>Crear Tarea</h1>
-    </mat-grid-tile>
-    <mat-grid-tile class="custom-mat-grid-tile">
-      <mat-form-field appearance="fill" class="custom-mat-form-field">
-        <mat-label>Descripcion</mat-label>
-        <input
-          matInput
-          formControlName="description"
-          placeholder="Descripcion"
-        />
-      </mat-form-field>
-    </mat-grid-tile>
-    <mat-grid-tile class="custom-mat-grid-tile">
-      <mat-form-field appearance="fill" class="custom-mat-form-field">
-        <mat-label>Estado</mat-label>
-        <mat-select formControlName="status" placeholder="Seleccionar estado">
-          <mat-option value="Pendiente">Pendiente</mat-option>
-          <mat-option value="En progreso">En progreso</mat-option>
-          <mat-option value="Completada">Completada</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </mat-grid-tile>
+@if (!selecImage) {
+  <form [formGroup]="createTaskForm" (ngSubmit)="create()">
+    <mat-grid-list class="custome-mat-grid-list" cols="1" rowHeight="70px">
+      <mat-grid-tile class="custom-mat-grid-tile">
+        <h1>Crear Tarea</h1>
+      </mat-grid-tile>
+      <mat-grid-tile class="custom-mat-grid-tile">
+        <mat-form-field appearance="fill" class="custom-mat-form-field">
+          <mat-label>Descripcion</mat-label>
+          <input
+            matInput
+            formControlName="description"
+            placeholder="Descripcion"
+          />
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile class="custom-mat-grid-tile">
+        <mat-form-field appearance="fill" class="custom-mat-form-field">
+          <mat-label>Estado</mat-label>
+          <mat-select formControlName="status" placeholder="Seleccionar estado">
+            <mat-option value="Pendiente">Pendiente</mat-option>
+            <mat-option value="En progreso">En progreso</mat-option>
+            <mat-option value="Completada">Completada</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+  
+      <mat-grid-tile class="custom-mat-grid-tile">
+        <div class="file-upload-container">
+          <input mat-bottom type="file" (change)="fileChangeEvent($event)" />
+        </div>
+      </mat-grid-tile>
+     
+      <mat-grid-tile class="custom-mat-grid-tile">
+        <button type="submit" mat-raised-button class="custome-button">
+          Enviar
+        </button>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </form>
+}
 
-    <mat-grid-tile class="custom-mat-grid-tile">
-      <div class="file-upload-container">
-        <input mat-bottom type="file" (change)="fileChangeEvent($event)" />
-      </div>
-    </mat-grid-tile>
-    <mat-grid-tile>
+@if (selecImage) {
+  <mat-dialog-content style="overflow: hidden;">
+    
+    
       <image-cropper
-        [imageChangedEvent]="imageChangedEvent"
-        [maintainAspectRatio]="true"
-        [aspectRatio]="1 / 1"
-        format="png"
-        (imageCropped)="imageCropped($event)"
-      ></image-cropper>
-
-      <img style="height: 200px" [src]="croppedImage" />
-    </mat-grid-tile>
-    <mat-grid-tile class="custom-mat-grid-tile">
-      <button type="submit" mat-raised-button class="custome-button">
-        Enviar
-      </button>
-    </mat-grid-tile>
-  </mat-grid-list>
-</form>
+      [imageChangedEvent]="imageChangedEvent"
+      [maintainAspectRatio]="true"
+      [aspectRatio]="1 / 1"
+      format="png"
+      (imageCropped)="imageCropped($event)"
+    ></image-cropper>
+      <div style="height: 60px; width: 100%; display: flex; align-items: center; justify-content: center;">
+        <button (click)="cut()" mat-raised-button class="custome-button">
+          Recortar
+        </button>
+      </div>
+  </mat-dialog-content>
+}

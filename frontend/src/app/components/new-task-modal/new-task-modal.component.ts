@@ -12,7 +12,7 @@ import {
 } from "@angular/forms";
 import { DataService } from "../../services/data.service";
 import { CreateTask, Task } from "../../interfaces/task.interface";
-import { MatDialogRef } from "@angular/material/dialog";
+import { MatDialogModule, MatDialogRef } from "@angular/material/dialog";
 import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";
 import { MatGridListModule } from "@angular/material/grid-list";
@@ -34,6 +34,7 @@ import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
     MatGridListModule,
     MatSelectModule,
     ImageCropperComponent,
+    MatDialogModule
   ],
   templateUrl: "./new-task-modal.component.html",
   styleUrl: "./new-task-modal.component.css",
@@ -48,6 +49,7 @@ export class NewTaskModalComponent {
   croppedImage: SafeUrl = '';
   imageBlob: Blob | null | undefined = null;
   imageFile!: File;
+  selecImage: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -69,6 +71,7 @@ export class NewTaskModalComponent {
 
   fileChangeEvent(event: Event): void {
     this.imageChangedEvent = event;
+    this.selecImage = true
   }
 
   imageCropped(event: ImageCroppedEvent): void {
@@ -76,6 +79,10 @@ export class NewTaskModalComponent {
     this.imageBlob = event.blob;
   }
 
+  cut(){
+    this.selecImage = false
+  }
+  
   imageResult(){
     if(this.imageBlob){
       this.imageFile = new File([this.imageBlob], this.selectedFileName || 'croppedImage.png', { type: 'image/png' });
