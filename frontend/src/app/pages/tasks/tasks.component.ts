@@ -36,7 +36,7 @@ export class TasksComponent {
   private taskDeleteSubscription!: Subscription;
 
   cols = 3;
-  heigth = 'fit';
+  height = 'fit';
   userName = '';
 
   constructor(private dataService: DataService, private breakpointObserver: BreakpointObserver) {}
@@ -79,10 +79,10 @@ export class TasksComponent {
       customBreakpoint.subscribe((state: BreakpointState) => {
         if (state.matches) {
           this.cols = 3;
-          this.heigth = 'fit';
+          this.height = 'fit';
         } else {
           this.cols = 1;
-          this.heigth = '90vh';
+          this.height = '90vh';
         }
       });
   }

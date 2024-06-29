@@ -3,7 +3,6 @@ import {
   Component,
   ElementRef,
   ViewChild,
-  inject,
 } from "@angular/core";
 import {
   FormBuilder,
@@ -22,7 +21,6 @@ import { Router } from "@angular/router";
 import {
   ImageCropperComponent,
   ImageCroppedEvent,
-  LoadedImage,
 } from "ngx-image-cropper";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 
@@ -43,13 +41,13 @@ import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 export class NewTaskModalComponent {
   @ViewChild("imageCanvas") canvas!: ElementRef<HTMLCanvasElement>;
 
-  selectedFile: File | null = null;
   selectedFileName: string | null = null;
   token = "";
   id: string | null = null;
   imageChangedEvent: Event | null = null;
   croppedImage: SafeUrl = '';
   imageBlob: Blob | null | undefined = null;
+  imageFile!: File;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -78,24 +76,29 @@ export class NewTaskModalComponent {
     this.imageBlob = event.blob;
   }
 
+  imageResult(){
+    if(this.imageBlob){
+      this.imageFile = new File([this.imageBlob], this.selectedFileName || 'croppedImage.png', { type: 'image/png' });
+
+    }
+  }
+
   close(): void {
     this.dialogRef.close();
   }
 
   create(): void {
-    if (this.imageBlob) {
-      const imageFile = new File([this.imageBlob], this.selectedFileName || 'croppedImage.png', { type: 'image/png' });
-
+    
+      this.imageResult();
       const user = JSON.parse(localStorage.getItem('user')!);
       this.token = user.csrfToken
       const body: CreateTask = {
         description: this.description.value,
         status: this.status!.value,
-        imageFile: imageFile,
+        imageFile: this.imageFile,
         user: { id: user.user.id },
-      };
-
       
+      };
 
       this.dataService.createTask(body, this.token).subscribe({
         next: (res) => {
@@ -111,6 +114,6 @@ export class NewTaskModalComponent {
           }
         },
       });
-    }
+    
   }
 }
