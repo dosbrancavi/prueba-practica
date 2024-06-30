@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, inject } from "@angular/core";
+import { ChangeDetectorRef, Component, Inject, EventEmitter, Output, inject } from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
@@ -30,9 +30,11 @@ import { UserResponse } from "../../interfaces/user.interface";
     MatDialogModule
   ],
   templateUrl: "./edit-task-modal.component.html",
-  styleUrl: "./edit-task-modal.component.css",
+  styleUrls: ["./edit-task-modal.component.css"],
 })
 export class EditTaskModalComponent {
+  @Output() taskUpdated = new EventEmitter<Task>();
+  
   selectedFileName: string | null = null;
   token = ''
   router: Router = inject(Router)
@@ -118,6 +120,7 @@ export class EditTaskModalComponent {
         .updateTask(updatedTask, this.token)
         .subscribe({
           next: (res) => {
+            this.taskUpdated.emit(updatedTask);
             this.dialogRef.close(updatedTask);
           },
           error: (err) => {

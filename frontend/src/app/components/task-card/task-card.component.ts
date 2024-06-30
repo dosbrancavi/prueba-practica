@@ -13,7 +13,7 @@ import { Router } from "@angular/router";
   standalone: true,
   imports: [MatCardModule, CommonModule],
   templateUrl: "./task-card.component.html",
-  styleUrl: "./task-card.component.css",
+  styleUrls: ["./task-card.component.css"],
 })
 export class TaskCardComponent {
   @Input() task!: Task;
@@ -22,9 +22,7 @@ export class TaskCardComponent {
   user!: UserResponse;
   router: Router = inject(Router)
 
-  constructor(private dialog: MatDialog, private dataService: DataService) {
-
-  }
+  constructor(private dialog: MatDialog, private dataService: DataService) {}
 
   @HostListener("dragstart", ["$event"])
   onDragStart(event: DragEvent) {
@@ -37,30 +35,37 @@ export class TaskCardComponent {
       data: this.task,
     });
 
+    dialogRef.componentInstance.taskUpdated.subscribe((updatedTask: Task) => {
+      this.task = updatedTask;
+      this.loadUser();
+    });
+
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        // Manejar la tarea actualizada
         this.task = result;
       }
     });
   }
 
-  ngOnInit(): void {
-    const user = JSON.parse(localStorage.getItem("user")!);
-    this.token = user.csrfToken;
-
+  loadUser() {
+    //  const userData = JSON.parse(sessionStorage.getItem('user')!);
+    //  this.task = userData.csrfToken
     this.dataService.getUserById(this.token, this.task.user.id).subscribe({
       next: (result) => {
         this.user = result;
       },
       error: (err) => {
-        if(err.status === 404) {
+        if(err.status === 401) {
           localStorage.removeItem("user");
           this.router.navigate(["/login"]);
         }
       }
     })
+  }
 
-    
+  ngOnInit(): void {
+    const user = JSON.parse(localStorage.getItem("user")!);
+    this.token = user.csrfToken;
+    this.loadUser();
   }
 }
