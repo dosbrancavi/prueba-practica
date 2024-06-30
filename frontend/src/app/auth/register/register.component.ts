@@ -31,7 +31,7 @@ export class RegisterComponent {
     phoneNumber: ['', [Validators.required, Validators.maxLength(9), Validators.pattern("\\d{4}-\\d{4}")]],
     age: ['', [Validators.required]],
     gender: ['', [Validators.required] ],
-    password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]]
+    password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50), Validators.pattern("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]*$")]]
   })
   
   get username(){return this.registerForm.controls['username']}
