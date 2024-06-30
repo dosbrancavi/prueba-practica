@@ -17,6 +17,9 @@ export class DataService {
   private taskCreatedSubject = new Subject<void>();
   private taskUpdatedSubject = new Subject<void>();
   private taskDeletedSubject = new Subject<void>();
+  private usersSubject = new Subject<UserResponse[]>();
+  private userByIdSubject = new Subject<UserResponse>();
+
 
   constructor(private httpClient: HttpClient) {}
 
@@ -123,5 +126,40 @@ export class DataService {
   }
   getTaskDeletedObservable() {
     return this.taskDeletedSubject.asObservable();
+  }
+
+  getAllUsers(token: string) {
+    const headers = new HttpHeaders({
+      "X-CSRF-Token": token,
+      "Content-Type": "application/json",
+    });
+
+    return this.httpClient.get<UserResponse[]>(`${this.BASE_URL}/users`, { headers }).pipe(
+      tap((users) => {
+        this.usersSubject.next(users);
+      })
+    );
+  }
+
+  getUsersObservable() {
+    return this.usersSubject.asObservable();
+  }
+
+  getUserById(token: string, userId: number) {
+    const headers = new HttpHeaders({
+      "X-CSRF-Token": token,
+      "Content-Type": "application/json",
+    });
+
+    return this.httpClient.get<UserResponse>(`${this.BASE_URL}/users/${userId}`, { headers }).pipe(
+      tap((users) => {
+        this.userByIdSubject.next(users);
+      })
+    );
+
+  }
+
+  getUsersByIdObservable() {
+    return this.userByIdSubject.asObservable();
   }
 }

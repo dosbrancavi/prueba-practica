@@ -2,6 +2,7 @@ package org.backend.service;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.backend.dto.UserDTO;
 import org.backend.entity.User;
@@ -58,12 +59,25 @@ public class UserService {
     }
 
     public User findUserById(Long id) {
-        return userRepository.findById(id);
+        User user = userRepository.findById(id);
+        user.setPassword(null);
+        user.setPrivateKeyBase64(null);
+        user.setPublicKeyBase64(null);
+        return user;
     }
 
     public List<User> getAllUsers() {
-        return userRepository.listAll();
-    }
+    List<User> users = userRepository.listAll();
+    return users.stream().map(user -> {
+        User dto = new User();
+        dto.setId(user.getId());
+        dto.setAge(user.getAge());
+        dto.setGender(user.getGender());
+        dto.setPhoneNumber(user.getPhoneNumber());
+        dto.setUsername(user.getUsername());
+        return dto;
+    }).collect(Collectors.toList());
+}
 
     public boolean isUsernameTaken(String username) {
         User existingUser = userRepository.find("username", username).firstResult();

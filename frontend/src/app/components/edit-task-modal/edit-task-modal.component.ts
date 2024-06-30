@@ -7,7 +7,7 @@ import {
 } from "@angular/forms";
 import { DataService } from "../../services/data.service";
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from "@angular/material/dialog";
-import { CreateTask, Task } from "../../interfaces/task.interface";
+import { Task } from "../../interfaces/task.interface";
 import { MatButtonModule } from "@angular/material/button";
 import { MatGridListModule } from "@angular/material/grid-list";
 import { MatInputModule } from "@angular/material/input";
@@ -15,6 +15,7 @@ import { MatSelectModule } from "@angular/material/select";
 import { Router } from "@angular/router";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 import { ImageCroppedEvent, ImageCropperComponent } from "ngx-image-cropper";
+import { UserResponse } from "../../interfaces/user.interface";
 
 @Component({
   selector: "app-edit-task-modal",
@@ -40,6 +41,7 @@ export class EditTaskModalComponent {
   imageBlob: Blob | null | undefined = null;
   imageFile!: File;
   selecImage: boolean = false;
+  users: UserResponse[] = [];
   constructor(
     private formBuilder: FormBuilder,
     private dataService: DataService,
@@ -53,6 +55,7 @@ export class EditTaskModalComponent {
     description: [this.task.description, [Validators.required]],
     status: [this.task.status, [Validators.required]],
     imageUrl: [this.task.imageUrl],
+    userId: [`${this.task.user.id}`]
   });
 
 
@@ -64,6 +67,10 @@ export class EditTaskModalComponent {
   }
   get imageUrl() {
     return this.editTaskForm.get("imageUrl");
+  }
+
+  get userId(){
+    return this.editTaskForm.get("userId");
   }
 
   fileChangeEvent(event: Event): void {
@@ -101,6 +108,8 @@ export class EditTaskModalComponent {
       const updatedTask = {
         ...this.task,
         ...this.editTaskForm.value,
+        user: { id: Number(this.editTaskForm.value.userId) },
+
       };
       const user = JSON.parse(localStorage.getItem("user")!);
      
@@ -137,6 +146,27 @@ export class EditTaskModalComponent {
         }
       }
     })
+  }
+
+  ngOnInit(): void {
+    const user = JSON.parse(localStorage.getItem("user")!);
+    this.token = user.csrfToken;
+
+    this.dataService.getAllUsers(this.token).subscribe({
+      next: (users) => {
+        this.users = users;
+      },
+      error: (err) => {
+        if (err.status === 401) {
+          localStorage.removeItem('user');
+          this.router.navigate(["/login"]);
+        }
+      }
+    });
+
+    this.dataService.getUsersObservable().subscribe((users) => {
+      this.users = users;
+    });
   }
 
   close(): void {

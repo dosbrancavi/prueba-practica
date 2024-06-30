@@ -11,9 +11,11 @@ export interface UserResponse {
     phoneNumber:string, 
     age: string, 
     gender:string,
+    id: string
 }
 
 export interface LoginRequest {
     username: string,
     password: string
 }
+

@@ -3,7 +3,6 @@ package org.backend.service;
 import org.backend.entity.Task;
 import org.backend.entity.User;
 import org.backend.repository.TaskRepository;
-import org.backend.repository.UserRepository;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

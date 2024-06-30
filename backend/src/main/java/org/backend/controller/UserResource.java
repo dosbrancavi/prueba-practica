@@ -3,6 +3,7 @@ package org.backend.controller;
 import org.backend.dto.LoginDTO;
 import org.backend.dto.UserDTO;
 import org.backend.entity.User;
+import org.backend.exeption.UnauthorizedException;
 import org.backend.service.AuthService;
 import org.backend.service.UserService;
 import org.backend.util.CsrfTokenUtil;
@@ -35,16 +36,21 @@ public class UserResource {
     @Inject
     private CsrfTokenUtil csrfTokenUtil;
 
+    
+
     private static final Logger LOGGER = Logger.getLogger(UserResource.class.getName());
 
     @GET
-    public List<User> getAllUsers() {
+    public List<User> getAllUsers(@HeaderParam("X-CSRF-Token") String csrfToken) {
+        validateCsrfToken(csrfToken);
+        
         return userService.getAllUsers();
     }
 
     @GET
     @Path("/{id}")
-    public Response getUserById(@PathParam("id") Long id) {
+    public Response getUserById(@PathParam("id") Long id, @HeaderParam("X-CSRF-Token") String csrfToken) {
+        validateCsrfToken(csrfToken);
         try {
             User user = userService.findUserById(id);
             if (user != null) {
@@ -148,5 +154,11 @@ public class UserResource {
         user.setGender(userDTO.getGender());
         user.setPassword(userDTO.getPassword());
         return user;
+    }
+
+     private void validateCsrfToken(String csrfToken) {
+        if (!csrfTokenUtil.isValidCsrfToken(csrfToken)) {
+            throw new UnauthorizedException("CSRF token is invalid");
+        }
     }
 }

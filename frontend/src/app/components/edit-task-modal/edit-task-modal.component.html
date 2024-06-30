@@ -20,6 +20,16 @@
               </mat-select>
             </mat-form-field>
           </mat-grid-tile>
+          <mat-grid-tile class="custom-mat-grid-tile">
+            <mat-form-field appearance="fill" class="custom-mat-form-field">
+              <mat-label>Usuario asignado</mat-label>
+              <mat-select formControlName="userId" placeholder="Seleccionar estado">
+                @for (user of users; track user.id) {
+                  <mat-option value="{{user.id}}">{{user.username}}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </mat-grid-tile>
   
           <mat-grid-tile class="custom-mat-grid-tile">
             <div class="file-upload-container">
