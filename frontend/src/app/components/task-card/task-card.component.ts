@@ -48,11 +48,11 @@ export class TaskCardComponent {
   }
 
   loadUser() {
-    //  const userData = JSON.parse(sessionStorage.getItem('user')!);
-    //  this.task = userData.csrfToken
+   
     this.dataService.getUserById(this.token, this.task.user.id).subscribe({
       next: (result) => {
         this.user = result;
+        this.username = this.user.username;
       },
       error: (err) => {
         if(err.status === 401) {

@@ -8,12 +8,13 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
 import { Router } from '@angular/router';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, MatButtonModule, MatInputModule , MatGridListModule, MatChipsModule, NgIf, JsonPipe],
+  imports: [ReactiveFormsModule, MatButtonModule, MatInputModule , MatGridListModule, MatChipsModule, NgIf, JsonPipe, MatSelectModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })

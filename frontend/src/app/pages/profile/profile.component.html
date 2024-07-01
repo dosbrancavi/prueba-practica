@@ -1,26 +1,76 @@
-<div class="container">
-    <mat-icon (click)="back()">arrow_back</mat-icon>
-    <mat-card class="card-container">
-        <img class="profile" src="https://avatars.githubusercontent.com/u/60197179?v=4&size=64"/>
-        <mat-card class="card-content">
-            <mat-card-content class="data" >
-                <mat-grid-list cols="2" rowHeight="150px">
-                    <mat-grid-tile>
-                        <p><b>Usuario: </b> {{name}}</p>
-                    </mat-grid-tile>
-                    <mat-grid-tile>
-                        <p><b>Edad: </b> {{age}}</p>
-                    </mat-grid-tile>
-                    <mat-grid-tile>
-                        <p><b>Telefono: </b> {{phoneNumber}}</p>
-                    </mat-grid-tile>
-                    <mat-grid-tile>
-                        <p><b>Genero: </b> {{gender}}</p>
-                    </mat-grid-tile>
-                </mat-grid-list>
-                <button (click)="logOut()" mat-raised-button>Cerrar sesion</button>
-            </mat-card-content>
-        </mat-card>
-            
+<form [formGroup]="editUserForm" class="container">
+  <mat-icon (click)="back()">arrow_back</mat-icon>
+  <mat-card class="card-container">
+    <img
+      class="profile"
+      src="https://avatars.githubusercontent.com/u/60197179?v=4&size=64"
+    />
+    <mat-card class="card-content">
+      <mat-card-content class="data">
+        <mat-grid-list cols="2" rowHeight="150px">
+          <mat-grid-tile>
+            <mat-form-field appearance="fill" class="custom-mat-form-field">
+              <mat-label>Usuario</mat-label>
+              <input
+                [disabled]="disabled"
+                matInput
+                formControlName="username"
+                placeholder="Usuario"
+              />
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field appearance="fill" class="custom-mat-form-field">
+              <mat-label>Edad</mat-label>
+              <input matInput formControlName="age" placeholder="Edad" />
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field appearance="fill" class="custom-mat-form-field">
+              <mat-label>Telefono</mat-label>
+              <input
+                matInput
+                formControlName="phoneNumber"
+                placeholder="Telefono"
+              />
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field appearance="fill" class="custom-mat-form-field">
+              <mat-label>Genero</mat-label>
+              <mat-select formControlName="gender" placeholder="Seleccionar estado">
+                <mat-option value="Masculino">Masculino</mat-option>
+                <mat-option value="Femenino">Femenino</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <button (click)="update()" mat-raised-button class="custome-button">Editar</button>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <button (click)="delete()" mat-raised-button class="custome-button-red">Eliminar</button>
+          </mat-grid-tile>
+        </mat-grid-list>
+        <button (click)="logOut()" mat-raised-button  class="custome-button-red">Cerrar sesion</button>
+      
+        
+      </mat-card-content>
     </mat-card>
-</div>
+    @if (userTaken) {
+      <div style="width: 100%; display: flex; align-items: center; justify-content: center; margin-top: 10px;">
+        <mat-chip color="warn">
+          El usuario ya existe, elija otro
+        </mat-chip>
+      </div>
+    }
+    @if (edited) {
+      <div style="width: 100%; display: flex; align-items: center; justify-content: center; margin-top: 10px;">
+        <mat-chip color="warn">
+          Se edito el usuairo de forma correcta
+        </mat-chip>
+      </div>
+    }
+  </mat-card>
+
+ 
+</form>

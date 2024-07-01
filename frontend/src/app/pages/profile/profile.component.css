@@ -52,12 +52,37 @@ p {
   font-size: 25px;
 }
 
-button {
+
+.custome-button {
+  background-color: #31a2eb !important;
+  color: #fff !important;
+  font-size: 16px;
+  padding: 10px 20px;
+  border-radius: 4px;
+  width: 100%;
+  margin-bottom: 38px;
+  transition: background-color 0.3s ease;
+  margin-right: 10px;
+}
+
+.custome-button:hover {
+  background-color: #0d2d4861;
+}
+
+.custome-button-red {
   background-color: #6d0c05 !important;
   color: #fff !important;
-  height: 40px;
-  width: 40%;
-  margin-left: 28%;
+  font-size: 16px;
+  padding: 10px 20px;
+  border-radius: 4px;
+  width: 100%;
+  margin-bottom: 38px;
+ margin-left: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.custome-button-red:hover {
+  background-color: #eb4b40;
 }
 
 @media (max-width: 600px) {
@@ -87,11 +112,4 @@ button {
     font-size: 12px;
   }
 
-  button {
-    background-color: #6d0c05 !important;
-    color: #fff !important;
-    height: 40px;
-    width: 60%;
-    margin-left: 20%;
-  }
 }

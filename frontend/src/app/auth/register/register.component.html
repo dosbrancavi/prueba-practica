@@ -1,9 +1,9 @@
 <form class="custome-form" [formGroup]="registerForm" (ngSubmit)="register()">
   <mat-grid-list class="custome-mat-grid-list" cols="1" rowHeight="80px">
     <mat-grid-tile class="custom-mat-grid-tile">
-        <h1>Registrate</h1>
+      <h1>Registrate</h1>
     </mat-grid-tile>
-    <mat-grid-tile >
+    <mat-grid-tile>
       <mat-form-field appearance="fill" class="custom-mat-form-field">
         <mat-label>Usuario</mat-label>
         <input matInput formControlName="username" class="custom-mat-input" />
@@ -44,7 +44,6 @@
             <span class="error">El formato requerido es 0000-0000</span>
           </div>
         </ng-container>
-        
       </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile>
@@ -61,14 +60,11 @@
     <mat-grid-tile>
       <mat-form-field appearance="fill" class="custom-mat-form-field">
         <mat-label>Genero</mat-label>
-        <input
-          matInput
-          formControlName="gender"
-          placeholder="Género"
-          class="custom-mat-input"
-        />
-    </mat-form-field>
-
+        <mat-select formControlName="gender" placeholder="Seleccionar estado">
+          <mat-option value="Masculino">Masculino</mat-option>
+          <mat-option value="Femenino">Femenino</mat-option>
+        </mat-select>
+      </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile>
       <mat-form-field appearance="fill" class="custom-mat-form-field">
@@ -80,44 +76,35 @@
           placeholder="Contraseña"
           class="custom-mat-input"
         />
-      <ng-container *ngIf="password.errors?.['minlength']">
-        <div>
-          <span class="error">El mínimo de caracteres requeridos es 8</span>
-        </div>
-      </ng-container>
-      <ng-container *ngIf="password.errors?.['maxlength']">
-        <div>
-          <span class="error">El máximo de caracteres requeridos es 50</span>
-        </div>
-      </ng-container>
-      <ng-container *ngIf="password.errors?.['pattern']">
-        <div>
-          <span class="error"
-            >La contraseña requiere mayúsculas, minúsculas y números</span
-          >
-        </div>
-      </ng-container>
-    </mat-form-field>
-
+        
+        <ng-container *ngIf="password.errors?.['maxlength']">
+          <div>
+            <span class="error">El máximo de caracteres requeridos es 50</span>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="password.errors?.['pattern']">
+          <div>
+            <span class="error"
+              >Requiere mayúsculas, minúsculas y números, no acepta caracteres especiales y longitud minima 8</span
+            >
+          </div>
+        </ng-container>
+      </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile>
-      <button mat-raised-button class="custome-button" type="submit">Enviar</button>
+      <button mat-raised-button class="custome-button" type="submit">
+        Enviar
+      </button>
     </mat-grid-tile>
 
     @if (error) {
-      <mat-grid-tile class="custom-mat-grid-tile">
-        <mat-chip color="warn">
-          No se pudo crear el usuario
-        </mat-chip>
-      </mat-grid-tile>
-    }
-
-    @if (success) {
-      <mat-grid-tile class="custom-mat-grid-tile">
-        <mat-chip color="warn">
-          Usuario creado de forma exitosa
-        </mat-chip>
-      </mat-grid-tile>
+    <mat-grid-tile class="custom-mat-grid-tile">
+      <mat-chip color="warn"> No se pudo crear el usuario </mat-chip>
+    </mat-grid-tile>
+    } @if (success) {
+    <mat-grid-tile class="custom-mat-grid-tile">
+      <mat-chip color="warn"> Usuario creado de forma exitosa </mat-chip>
+    </mat-grid-tile>
     }
   </mat-grid-list>
 </form>

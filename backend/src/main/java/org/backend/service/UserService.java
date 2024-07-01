@@ -43,7 +43,9 @@ public class UserService {
         existingUser.setPhoneNumber(userDTO.getPhoneNumber());
         existingUser.setAge(userDTO.getAge());
         existingUser.setGender(userDTO.getGender());
-        existingUser.setPassword(userDTO.getPassword());
+        existingUser.setPassword(null);
+        existingUser.setPrivateKeyBase64(null);
+        existingUser.setPublicKeyBase64(null);
 
         userRepository.persist(existingUser);
         return existingUser;

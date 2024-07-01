@@ -125,7 +125,9 @@ public class UserResource {
 
     @PUT
     @Path("/{id}")
-    public Response updateUser(@PathParam("id") Long id, @Valid UserDTO userDTO) {
+    public Response updateUser(@PathParam("id") Long id, @Valid UserDTO userDTO,  @HeaderParam("X-CSRF-Token") String csrfToken) {
+        validateCsrfToken(csrfToken);
+
         try {
             User updatedUser = userService.updateUser(id, userDTO);
             return Response.ok(updatedUser).build();
@@ -137,7 +139,9 @@ public class UserResource {
 
     @DELETE
     @Path("/{id}")
-    public Response deleteUser(@PathParam("id") Long id) {
+    public Response deleteUser(@PathParam("id") Long id, @HeaderParam("X-CSRF-Token") String csrfToken) {
+        validateCsrfToken(csrfToken);
+
         try {
             userService.deleteUser(id);
             return Response.status(Response.Status.NO_CONTENT).build();
