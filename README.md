@@ -5,10 +5,6 @@ Para correr la aplicación en cualquier ambiente primero debemos:
 - Posicionarse en la ruta **prueba-practica**
 - Tener docker desktop instalado 
 - Ejecutar el comando **docker-compose up --build**
-- Una vez que el contenedor levante ir a la ruta prueba-practica/backend **prueba-practica/backend**
-- se requiere tener instalado **openjdk 17.0.6 2023-01-17** o superior
-- Ejecutar el comando **./mvnw quarkus:dev**
-
 
 ## Funciones de la Aplicación
 - Al Primer ingreso muestra **wizard-guide**
